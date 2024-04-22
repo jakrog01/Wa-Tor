@@ -14,6 +14,7 @@ class SliderLabelGroup(QWidget):
         self.slider.setSingleStep(1)
         self.slider.setMinimum(min_val)
         self.slider.setMaximum(max_val)
+        self.slider.setValue(5)
         self.slider.setFixedSize(200, 30)
         self.groupbox_layout.addWidget(self.slider)
 

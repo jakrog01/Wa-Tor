@@ -1,20 +1,21 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QScrollArea, QPushButton
 from UserControls.SpinBoxLabelGroup import SpinBoxLabelGroup
 from UserControls.SlideBarLabelGroup import SliderLabelGroup
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal
 
-#MainArea 550x550
-#Charts 175x175
 
 class ControlPanel(QWidget):
+    start_button_clicked_singal = Signal()
+
     def __init__(self):
         super().__init__()
 
         self.setFixedWidth(320)
-
         self.button_layout = QHBoxLayout()
-        self.start_button = QPushButton("START")
+        self.start_button = QPushButton()
+        self.start_button.setText("START")
         self.start_button.setFixedSize(130,40)
+        self.start_button.clicked.connect(self.start_button_clicked)
         self.button_layout.addWidget(self.start_button)
 
         self.reset_button = QPushButton("RESET")
@@ -50,6 +51,9 @@ class ControlPanel(QWidget):
         self.parameters_layout.addWidget(SpinBoxLabelGroup("d", "Predator propagation:", 50, 150))
         self.main_layout.addLayout(self.button_layout)
         self.main_layout.addWidget(self.scroll_area)
+
+    def start_button_clicked(self):
+        self.start_button_clicked_singal.emit()
         
         
         
