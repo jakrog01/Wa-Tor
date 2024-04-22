@@ -11,6 +11,7 @@ class SliderLabelGroup(QWidget):
         self.groupbox_layout = QHBoxLayout(self.group_box)
 
         self.slider = QSlider(orientation=Qt.Horizontal)
+        self.slider.setSingleStep(1)
         self.slider.setMinimum(min_val)
         self.slider.setMaximum(max_val)
         self.slider.setFixedSize(200, 30)

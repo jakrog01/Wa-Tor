@@ -30,15 +30,16 @@ class ControlPanel(QWidget):
         self.scroll_area.setFixedWidth(300)
         self.scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         self.parameters_layout.setContentsMargins(0,0,0,0)
-
         scroll_content = QWidget()
-
         scroll_content.setLayout(self.parameters_layout)
         self.scroll_area.setWidget(scroll_content)
-
         self.params_label = QLabel("SIMULATION PARAMETERS")
+        self.main_layout = QVBoxLayout()
+        self.setLayout(self.main_layout)
+        self.add_user_controls()
 
-        self.parameters_layout.addWidget(SliderLabelGroup("Simulation speed:", 50, 150))
+    def add_user_controls(self):
+        self.parameters_layout.addWidget(SliderLabelGroup("Simulation speed:", 0, 10))
         self.parameters_layout.addWidget(self.params_label, alignment=Qt.AlignCenter)
         self.parameters_layout.addWidget(SpinBoxLabelGroup("Area size", "Size of simualtion area:", 50, 150))
         self.parameters_layout.addWidget(SpinBoxLabelGroup("Prey population", "Initial prey density (%):", 50, 150))
@@ -47,11 +48,8 @@ class ControlPanel(QWidget):
         self.parameters_layout.addWidget(SpinBoxLabelGroup("b", "Hunting effectiveness:", 50, 150))
         self.parameters_layout.addWidget(SpinBoxLabelGroup("c", "Predator death rate:", 50, 150))
         self.parameters_layout.addWidget(SpinBoxLabelGroup("d", "Predator propagation:", 50, 150))
-        
-        self.main_layout = QVBoxLayout()
         self.main_layout.addLayout(self.button_layout)
         self.main_layout.addWidget(self.scroll_area)
-        self.setLayout(self.main_layout)
         
         
         
