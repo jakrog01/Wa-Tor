@@ -87,6 +87,10 @@ class ControlPanel(QWidget):
     def __stop_simulation(self):
         self.__start_button.setText("START")
         self.start_button_clicked_singal.emit()
+
+    def turn_off_widgets(self):
+        for i in reversed(range(self.__parameters_layout.count())): 
+            self.__parameters_layout.itemAt(i).widget().turn_off_widgets()
         
         
         

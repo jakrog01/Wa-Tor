@@ -26,5 +26,8 @@ class SpinBoxLabelGroup(QWidget):
 
         self.setLayout(self.__main_layout)
 
+    def turn_off_widgets(self):
+        self.__spinbox.setEnabled(False)
+
 
 

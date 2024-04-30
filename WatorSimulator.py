@@ -59,6 +59,7 @@ class UiMainWindow(QMainWindow):
         self.__groupbox.start_simulation()
         self.__population_graph.start_simulation()
         self.__populationovertime_graph.start_simulation()
+        self.__control_panel.turn_off_widgets()
 
     def __stop_simulation(self):
         self.__simulation_started = False
