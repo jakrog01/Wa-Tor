@@ -28,6 +28,9 @@ class SpinBoxLabelGroup(QWidget):
 
     def turn_off_widgets(self):
         self.__spinbox.setEnabled(False)
+    
+    def turn_on_widgets(self):
+        self.__spinbox.setEnabled(True)
 
 
 

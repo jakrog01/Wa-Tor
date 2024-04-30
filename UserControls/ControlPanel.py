@@ -91,6 +91,10 @@ class ControlPanel(QWidget):
     def turn_off_widgets(self):
         for i in reversed(range(self.__parameters_layout.count())): 
             self.__parameters_layout.itemAt(i).widget().turn_off_widgets()
+    
+    def turn_on_widgets(self):
+        for i in reversed(range(self.__parameters_layout.count())): 
+            self.__parameters_layout.itemAt(i).widget().turn_on_widgets()
         
         
         
