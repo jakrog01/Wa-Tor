@@ -5,52 +5,70 @@ from PySide6.QtCore import Qt
 from Display.SimulatedAreaGroupBox import SimulatedAreaGroupBox
 from Display.GraphGroupBox import GraphGroupBox
 
-class Ui_main_window(QMainWindow):
+class UiMainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setupUi(self)
+        self.__setup_ui()
     
-    def setupUi(self, main_window):
-        main_window.setWindowTitle("Wator simulatior")
-        main_window.setWindowIcon(QIcon("Graphics/Icon.png"))
-        main_window.setFixedSize(1250, 650)
+    def __setup_ui(self):
+        self.setWindowTitle("Wator simulatior")
+        self.setWindowIcon(QIcon("Graphics/Icon.png"))
+        self.setFixedSize(1250, 650)
 
-        self.main_layout = QHBoxLayout()
-        self.main_window_central_widget = QWidget(main_window)
-        self.main_window_central_widget.setLayout(self.main_layout)
+        self.__simulation_started = False
+        self.__main_layout = QHBoxLayout()
+        self.__main_window_central_widget = QWidget(self)
+        self.__main_window_central_widget.setLayout(self.__main_layout)
+        self.setCentralWidget(self.__main_window_central_widget)
+        self.__main_layout.setAlignment(Qt.AlignLeft)
 
-        self.groupbox = SimulatedAreaGroupBox()
-        self.groupbox.setFixedSize(600,600)
+        self.__add_central_panel()
+        self.__add_simulated_area_widget()
+        self.__add_simulation_graphs()
 
-        self.control_panel = ControlPanel()
-        self.control_panel.start_button_clicked_singal.connect(self.start_simulation)
+    def __add_central_panel(self):
+        self.__control_panel = ControlPanel()
+        self.__control_panel.start_button_clicked_singal.connect(self.__simulation_button_clicked)
+        self.__main_layout.addWidget(self.__control_panel)
+    
+    def __add_simulated_area_widget(self):
+        self.__groupbox = SimulatedAreaGroupBox()
+        self.__groupbox.setFixedSize(600,600)
+        self.__main_layout.addWidget(self.__groupbox)
+    
+    def __add_simulation_graphs(self):
+        self.__population_graph = GraphGroupBox("Phase-space plot")
+        self.__population_graph.setFixedSize(300,300)
 
-        self.population_graph = GraphGroupBox("Phase-space plot")
-        self.population_graph.setFixedSize(300,300)
+        self.__populationovertime_graph = GraphGroupBox("Populations over time")
+        self.__populationovertime_graph.setFixedSize(300,300)
 
-        self.populationovertime_graph = GraphGroupBox("Populations over time")
-        self.populationovertime_graph.setFixedSize(300,300)
+        self.__graphs_layout = QVBoxLayout()
+        self.__graphs_layout.addWidget(self.__population_graph)
+        self.__graphs_layout.addWidget(self.__populationovertime_graph)
+        self.__main_layout.addLayout(self.__graphs_layout)
 
-        self.graphs_layout = QVBoxLayout()
-        self.graphs_layout.addWidget(self.population_graph)
-        self.graphs_layout.addWidget(self.populationovertime_graph)
+    def __simulation_button_clicked(self):
+        if self.__simulation_started:
+            self.__stop_simulation()
+        else:
+            self.__start_simulation()
 
-        self.setCentralWidget(self.main_window_central_widget)
-        self.main_layout.setAlignment(Qt.AlignLeft)
-        self.main_layout.addWidget(self.control_panel)
-        self.main_layout.addWidget(self.groupbox)
-        self.main_layout.addLayout(self.graphs_layout)
+    def __start_simulation(self):
+        self.__simulation_started = True
+        self.__groupbox.start_simulation()
+        self.__population_graph.start_simulation()
+        self.__populationovertime_graph.start_simulation()
 
-    def start_simulation(self):
-        self.control_panel.start_button.setText("STOP")
-        self.groupbox.start_simulation()
-        self.population_graph.start_simulation()
-        self.populationovertime_graph.start_simulation()
-        
+    def __stop_simulation(self):
+        self.__simulation_started = False
+        self.__groupbox.stop_simulation()
+        self.__population_graph.stop_simulation()
+        self.__populationovertime_graph.stop_simulation()
 
 if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)
-    main_window = Ui_main_window()
+    main_window = UiMainWindow()
     main_window.show()
     sys.exit(app.exec())

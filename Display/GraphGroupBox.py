@@ -7,18 +7,31 @@ class GraphGroupBox(QGroupBox):
     def __init__(self, text):
         super().__init__()
         self.setTitle(text)
-        self.main_layout = QVBoxLayout()
-        self.main_layout.setAlignment(Qt.AlignCenter)
-        self.Picture_Label = QLabel()
+        self.__main_layout = QVBoxLayout()
+        self.__main_layout.setAlignment(Qt.AlignCenter)
+        self.setLayout(self.__main_layout)
+        self.__draw_logo_image()
+
+    def __clear_main_layout(self):
+        for i in reversed(range(self.__main_layout.count())): 
+            self.__main_layout.itemAt(i).widget().setParent(None)
+
+    def __draw_logo_image(self):
+        self.__clear_main_layout()
+        self.__Picture_Label = QLabel()
         pixmap = QPixmap("Graphics/Icon.png")
         pixmap = pixmap.scaled(250, 250, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-        self.Picture_Label.setPixmap(pixmap)
-        self.main_layout.addWidget(self.Picture_Label)
-        self.setLayout(self.main_layout)
+        self.__Picture_Label.setPixmap(pixmap)
+        self.__main_layout.addWidget(self.__Picture_Label)
 
     def start_simulation(self):
-        for i in reversed(range(self.main_layout.count())): 
-            self.main_layout.itemAt(i).widget().setParent(None)
+        self.__clear_main_layout()
+        self.__figure = GraphFigure(100)
+        self.__main_layout.addWidget(self.__figure)
+        self.__figure.plot([0,1,2,3], [0,1,2,3])
+    
+    def stop_simulation(self):
+        self.__draw_logo_image()
 
-        self.figure = GraphFigure(100)
-        self.main_layout.addWidget(self.figure)
+    def plot(self, x, y):
+        self.__figure.plot(x, y)

@@ -5,24 +5,26 @@ class SpinBoxLabelGroup(QWidget):
     def __init__(self, text, label_text, min_val, max_val):
         super().__init__()
 
-        self.setFixedSize(275, 90)
+        self.setFixedSize(280, 90)
 
-        self.group_box = QGroupBox(f"{text}")
-        self.groupbox_layout = QHBoxLayout(self.group_box)
+        self.__groupbox = QGroupBox(f"{text}")
+        self.__groupbox_layout = QHBoxLayout(self.__groupbox)
 
         label = QLabel(label_text)
-        self.spinbox = QSpinBox()
-        self.spinbox.setMinimum(min_val)
-        self.spinbox.setMaximum(max_val)
-        self.spinbox.setFixedSize(80, 30)
+        self.__spinbox = QSpinBox()
+        self.__spinbox.setMinimum(min_val)
+        self.__spinbox.setMaximum(max_val)
+        self.__spinbox.setSingleStep(1)
+        self.__spinbox.setValue(max_val//2)
+        self.__spinbox.setFixedSize(80, 30)
 
-        self.groupbox_layout.addWidget(label)
-        self.groupbox_layout.addWidget(self.spinbox)
+        self.__groupbox_layout.addWidget(label)
+        self.__groupbox_layout.addWidget(self.__spinbox)
 
-        self.main_layout = QHBoxLayout()
-        self.main_layout.addWidget(self.group_box)
+        self.__main_layout = QHBoxLayout()
+        self.__main_layout.addWidget(self.__groupbox)
 
-        self.setLayout(self.main_layout)
+        self.setLayout(self.__main_layout)
 
 
 
