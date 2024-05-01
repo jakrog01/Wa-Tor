@@ -58,9 +58,11 @@ class ControlPanel(QWidget):
         self.__parameters_layout.addWidget(self.__area_size_spinbox)
 
         self.__prey_population_spinbox = SpinBoxLabelGroup("Prey population", "Initial prey density (%):", 0, 100)
+        self.__prey_population_spinbox.spinbox_edit_finished_singal.connect(self.__spinbox_change)
         self.__parameters_layout.addWidget(self.__prey_population_spinbox)
 
         self.__predator_population_spinbox = SpinBoxLabelGroup("Predator population", "Initial predator density (%):", 0, 100)
+        self.__predator_population_spinbox.spinbox_edit_finished_singal.connect(self.__spinbox_change)
         self.__parameters_layout.addWidget(self.__predator_population_spinbox)
         
         self.__param_a_spinbox = SpinBoxLabelGroup("a", "Prey propagation (steps):", 0, 10)
@@ -79,6 +81,14 @@ class ControlPanel(QWidget):
 
     def __start_button_clicked(self):
         self.__simulation_action[self.__start_button.text()]()
+    
+    def __spinbox_change(self, value):
+        sum = self.__predator_population_spinbox.value + self.__prey_population_spinbox.value 
+        if sum > 100:
+            if value == "Prey population":
+                self.__predator_population_spinbox.value =  self.__predator_population_spinbox.value - (sum - 100)
+            else:
+                self.__prey_population_spinbox.value =  self.__prey_population_spinbox.value - (sum - 100)
     
     def __start_simulation(self):
         self.__start_button.setText("STOP")

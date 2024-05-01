@@ -67,6 +67,8 @@ class UiMainWindow(QMainWindow):
         self.__population_graph.stop_simulation()
         self.__populationovertime_graph.stop_simulation()
         self.__control_panel.turn_on_widgets()
+        
+        
 
 if __name__ == "__main__":
     import sys
