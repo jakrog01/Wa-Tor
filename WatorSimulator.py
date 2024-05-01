@@ -4,6 +4,7 @@ from PySide6.QtGui import QIcon
 from PySide6.QtCore import Qt
 from Display.SimulatedAreaGroupBox import SimulatedAreaGroupBox
 from Display.GraphGroupBox import GraphGroupBox
+from WaTorSimulation.SimualtionArea import SimulationArea
 
 class UiMainWindow(QMainWindow):
     def __init__(self):
@@ -32,9 +33,9 @@ class UiMainWindow(QMainWindow):
         self.__main_layout.addWidget(self.__control_panel)
     
     def __add_simulated_area_widget(self):
-        self.__groupbox = SimulatedAreaGroupBox()
-        self.__groupbox.setFixedSize(600,600)
-        self.__main_layout.addWidget(self.__groupbox)
+        self.__area_groupbox = SimulatedAreaGroupBox()
+        self.__area_groupbox.setFixedSize(600,600)
+        self.__main_layout.addWidget(self.__area_groupbox)
     
     def __add_simulation_graphs(self):
         self.__population_graph = GraphGroupBox("Phase-space plot")
@@ -56,20 +57,21 @@ class UiMainWindow(QMainWindow):
 
     def __start_simulation(self):
         self.__simulation_started = True
-        self.__groupbox.start_simulation()
+        simulation_params = self.__control_panel.simulation_params
+        simulation_area = SimulationArea(simulation_params[0], simulation_params[1], simulation_params[2], simulation_params[3],
+                                         simulation_params[4],simulation_params[5],simulation_params[6])
+        self.__area_groupbox.start_simulation(simulation_area.area)
         self.__population_graph.start_simulation()
         self.__populationovertime_graph.start_simulation()
         self.__control_panel.turn_off_widgets()
 
     def __stop_simulation(self):
         self.__simulation_started = False
-        self.__groupbox.stop_simulation()
+        self.__area_groupbox.stop_simulation()
         self.__population_graph.stop_simulation()
         self.__populationovertime_graph.stop_simulation()
         self.__control_panel.turn_on_widgets()
         
-        
-
 if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)

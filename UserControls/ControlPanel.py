@@ -105,6 +105,12 @@ class ControlPanel(QWidget):
     def turn_on_widgets(self):
         for i in reversed(range(self.__parameters_layout.count())): 
             self.__parameters_layout.itemAt(i).widget().turn_on_widgets()
+
+    @property
+    def simulation_params(self):
+        return (self.__area_size_spinbox.value, self.__prey_population_spinbox.value, self.__predator_population_spinbox.value,
+                self.__param_a_spinbox.value, self.__param_b_spinbox.value, self.__param_c_spinbox.value, 
+                self.__param_d_spinbox.value)
         
         
         

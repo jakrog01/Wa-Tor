@@ -13,6 +13,7 @@ class SimulatedAreaFigure(FigureCanvasQTAgg):
         super(SimulatedAreaFigure, self).__init__(fig)
         
     def show_area(self, area):
+        self.__axes.clear()
         self.__axes.imshow(area, cmap = self.__cmap)
         self.__axes.axis("off")
 
