@@ -3,8 +3,8 @@ from abc import ABC, abstractmethod
 class AbstractAnimal(ABC):
     def __init__(self, x, y):
         super().__init__()
-        self.y = x
-        self.x = y
+        self.y = y
+        self.x = x
     
     @abstractmethod
     def move(self):

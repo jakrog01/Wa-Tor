@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QApplication, QMainWindow, QHBoxLayout, QVBoxLayout, QWidget
 from UserControls.ControlPanel import ControlPanel
 from PySide6.QtGui import QIcon
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QTimer
 from Display.SimulatedAreaGroupBox import SimulatedAreaGroupBox
 from Display.GraphGroupBox import GraphGroupBox
 from WaTorSimulation.SimualtionArea import SimulationArea
@@ -22,6 +22,10 @@ class UiMainWindow(QMainWindow):
         self.__main_window_central_widget.setLayout(self.__main_layout)
         self.setCentralWidget(self.__main_window_central_widget)
         self.__main_layout.setAlignment(Qt.AlignLeft)
+
+        self.__timer = QTimer()
+        self.__timer.setInterval(2000)
+        self.__timer.timeout.connect(self.__simulation_step)
 
         self.__add_central_panel()
         self.__add_simulated_area_widget()
@@ -58,15 +62,22 @@ class UiMainWindow(QMainWindow):
     def __start_simulation(self):
         self.__simulation_started = True
         simulation_params = self.__control_panel.simulation_params
-        simulation_area = SimulationArea(simulation_params[0], simulation_params[1], simulation_params[2], simulation_params[3],
+        self.simulation_area = SimulationArea(simulation_params[0], simulation_params[1], simulation_params[2], simulation_params[3],
                                          simulation_params[4],simulation_params[5],simulation_params[6])
-        self.__area_groupbox.start_simulation(simulation_area.area)
+        self.__area_groupbox.start_simulation(self.simulation_area.area)
         self.__population_graph.start_simulation()
         self.__populationovertime_graph.start_simulation()
         self.__control_panel.turn_off_widgets()
+        self.__timer.start()
+            
+    def __simulation_step(self):
+        self.simulation_area.step()
+        self.__area_groupbox.simulation_step(self.simulation_area.area)
+        self.__area_groupbox.update()
 
     def __stop_simulation(self):
         self.__simulation_started = False
+        self.__timer.stop()
         self.__area_groupbox.stop_simulation()
         self.__population_graph.stop_simulation()
         self.__populationovertime_graph.stop_simulation()

@@ -54,7 +54,7 @@ class ControlPanel(QWidget):
     def __add_parameters_controls(self):
         self.__parameters_layout = QVBoxLayout()
 
-        self.__area_size_spinbox = SpinBoxLabelGroup("Area size", "Size of simualtion area:", 50, 150)
+        self.__area_size_spinbox = SpinBoxLabelGroup("Area size", "Size of simualtion area:", 10, 150)
         self.__parameters_layout.addWidget(self.__area_size_spinbox)
 
         self.__prey_population_spinbox = SpinBoxLabelGroup("Prey population", "Initial prey density (%):", 0, 100)

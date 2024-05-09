@@ -18,9 +18,9 @@ class AnimalsCollector():
         
         for index, cords in enumerate(init_cords_set):
             if index < prey_population:
-                self.prey_set.add(Prey(cords[0], cords[1], a))
-                area[cords[0]][cords[1]] = 1
+                self.prey_set.add(Prey(area_size, cords[0], cords[1], a))
+                area[cords[1]][cords[0]] = 1
             else:
                 self.predator_set.add(Predator(cords[0], cords[1], b, c, d))
-                area[cords[0]][cords[1]] = 2
+                area[cords[1]][cords[0]] = 2
 

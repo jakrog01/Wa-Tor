@@ -32,6 +32,7 @@ class SimulatedAreaGroupBox(QGroupBox):
     
     def simulation_step(self, area):
         self.__figure.show_area(area)
+        self.__figure.draw()
     
     def stop_simulation(self):
         self.__draw_logo_image()
