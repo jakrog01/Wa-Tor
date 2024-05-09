@@ -21,6 +21,6 @@ class AnimalsCollector():
                 self.prey_set.add(Prey(area_size, cords[0], cords[1], a))
                 area[cords[1]][cords[0]] = 1
             else:
-                self.predator_set.add(Predator(cords[0], cords[1], b, c, d))
+                self.predator_set.add(Predator(cords[0], cords[1], area_size, b, c, d))
                 area[cords[1]][cords[0]] = 2
 

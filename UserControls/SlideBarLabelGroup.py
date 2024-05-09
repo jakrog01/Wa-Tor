@@ -1,7 +1,9 @@
 from PySide6.QtWidgets import QWidget, QLabel, QSlider, QSlider, QGroupBox, QHBoxLayout
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal
 
 class SliderLabelGroup(QWidget):
+    slider_edit_finished_singal = Signal()
+
     def __init__(self, text, min_val, max_val):
         super().__init__()
 
@@ -17,11 +19,17 @@ class SliderLabelGroup(QWidget):
         self.__slider.setValue(max_val//2)
         self.__slider.setFixedSize(200, 30)
         self.__groupbox_layout.addWidget(self.__slider)
-
+        self.__slider.valueChanged.connect(self.__emit_edit_finished_singal)
         self.__main_layout = QHBoxLayout()
         self.__main_layout.addWidget(self.__groupbox)
 
         self.setLayout(self.__main_layout)
+    
+    def __emit_edit_finished_singal(self):
+        self.slider_edit_finished_singal.emit()
 
+    @property
+    def value(self):
+        return int(self.__slider.value())
 
 

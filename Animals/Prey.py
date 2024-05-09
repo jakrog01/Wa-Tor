@@ -8,8 +8,7 @@ class Prey(AbstractAnimal):
         self.__steps_counter = 0
         self.__a = a
 
-    def move(self, area, new_prey_set):
-        print(self.y, self.x)
+    def movement(self, area, new_prey_set):
 
         possible_moves = self.__choose_direction(area)
         direction = randint(0, len(possible_moves)-1)
@@ -30,7 +29,6 @@ class Prey(AbstractAnimal):
         self.__steps_counter += 1
 
         if self.__steps_counter >= self.__a:
-            print("TAK")
             self.__steps_counter = 0
             return True
         return False
@@ -63,5 +61,13 @@ class Prey(AbstractAnimal):
             return result + self.__area_size
         else:
             return result
+        
+    def __eq__(self, other):
+        if isinstance(other, Prey):
+            return self.x == other.x and self.y == other.y
+        return False
+
+    def __hash__(self):
+        return hash(self.x ** self.y)
 
         

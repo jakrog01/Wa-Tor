@@ -7,5 +7,5 @@ class AbstractAnimal(ABC):
         self.x = x
     
     @abstractmethod
-    def move(self):
+    def movement(self):
         pass

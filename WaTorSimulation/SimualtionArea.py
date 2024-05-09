@@ -11,16 +11,28 @@ class SimulationArea():
 
     def __init_simulation(self,area_size, prey_population, predator_population, a, b, c, d):
         self.animals_collector.prepare_sets(self.area, area_size, prey_population, predator_population, a, b, c, d)
-        print(len(self.animals_collector.prey_set))
-        print(self.area)
 
     def step(self):
-        new_birth = set()
+        prey_new_birth = set()
+
         for prey in self.animals_collector.prey_set:
-            prey.move(self.area, new_birth)
+            prey.movement(self.area, prey_new_birth)
 
-        if(len(new_birth)) != 0:
-            self.animals_collector.prey_set.update(new_birth)
+        if(len(prey_new_birth)) != 0:
+            self.animals_collector.prey_set.update(prey_new_birth)
 
-        print(len(self.animals_collector.prey_set))
-        print(self.area)
+        predator_new_birth = set()
+        predator_death = set()
+        prey_death = set()
+
+        for predator in self.animals_collector.predator_set:
+            predator.movement(self.area, predator_new_birth, predator_death, prey_death)
+        
+        if len(predator_new_birth) != 0:
+            self.animals_collector.predator_set.update(predator_new_birth)
+        
+        if len(predator_death) != 0:
+            self.animals_collector.predator_set.difference_update(predator_death)
+        
+        if len(prey_death) != 0:
+            self.animals_collector.prey_set.difference_update(prey_death)

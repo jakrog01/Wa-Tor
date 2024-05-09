@@ -6,6 +6,7 @@ from PySide6.QtCore import Qt, Signal
 
 class ControlPanel(QWidget):
     start_button_clicked_singal = Signal()
+    slider_changed_singal = Signal()
 
     def __init__(self):
         super().__init__()
@@ -43,8 +44,9 @@ class ControlPanel(QWidget):
         
         scroll_content = QWidget()
         scroll_content.setLayout(self.__simulation_control_layout)
-        self.__SpeedSlider = SliderLabelGroup("Simulation speed:", 0, 10)
-        self.__simulation_control_layout.addWidget(self.__SpeedSlider)
+        self.__speed_slider = SliderLabelGroup("Simulation speed:", 0, 10)
+        self.__speed_slider.slider_edit_finished_singal.connect(self.__emit_edit_slider)
+        self.__simulation_control_layout.addWidget(self.__speed_slider)
         params_label = QLabel("SIMULATION PARAMTERS")
 
         self.__simulation_control_layout.addWidget(params_label, alignment=Qt.AlignCenter)
@@ -105,12 +107,19 @@ class ControlPanel(QWidget):
     def turn_on_widgets(self):
         for i in reversed(range(self.__parameters_layout.count())): 
             self.__parameters_layout.itemAt(i).widget().turn_on_widgets()
+    
+    def __emit_edit_slider(self):
+        self.slider_changed_singal.emit()
 
     @property
     def simulation_params(self):
         return (self.__area_size_spinbox.value, self.__prey_population_spinbox.value, self.__predator_population_spinbox.value,
                 self.__param_a_spinbox.value, self.__param_b_spinbox.value, self.__param_c_spinbox.value, 
                 self.__param_d_spinbox.value)
+    
+    @property
+    def speed(self):
+        return self.__speed_slider.value
         
         
         

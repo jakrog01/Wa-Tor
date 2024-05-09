@@ -24,7 +24,7 @@ class UiMainWindow(QMainWindow):
         self.__main_layout.setAlignment(Qt.AlignLeft)
 
         self.__timer = QTimer()
-        self.__timer.setInterval(2000)
+        self.__timer.setInterval(100)
         self.__timer.timeout.connect(self.__simulation_step)
 
         self.__add_central_panel()
@@ -34,6 +34,7 @@ class UiMainWindow(QMainWindow):
     def __add_central_panel(self):
         self.__control_panel = ControlPanel()
         self.__control_panel.start_button_clicked_singal.connect(self.__simulation_button_clicked)
+        self.__control_panel.slider_changed_singal.connect(self.__speed_cange)
         self.__main_layout.addWidget(self.__control_panel)
     
     def __add_simulated_area_widget(self):
@@ -68,6 +69,7 @@ class UiMainWindow(QMainWindow):
         self.__population_graph.start_simulation()
         self.__populationovertime_graph.start_simulation()
         self.__control_panel.turn_off_widgets()
+        self.__timer.setInterval(2000 - ((self.__control_panel.speed - 1) * 200))
         self.__timer.start()
             
     def __simulation_step(self):
@@ -82,6 +84,9 @@ class UiMainWindow(QMainWindow):
         self.__population_graph.stop_simulation()
         self.__populationovertime_graph.stop_simulation()
         self.__control_panel.turn_on_widgets()
+    
+    def __speed_cange(self):
+        self.__timer.setInterval(1000 - ((self.__control_panel.speed - 1) * 100))
         
 if __name__ == "__main__":
     import sys

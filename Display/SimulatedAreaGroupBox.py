@@ -26,7 +26,7 @@ class SimulatedAreaGroupBox(QGroupBox):
 
     def start_simulation(self, area):
         self.__clear_main_layout()
-        self.__figure = SimulatedAreaFigure(100)
+        self.__figure = SimulatedAreaFigure(len(area))
         self.__main_layout.addWidget(self.__figure)
         self.simulation_step(area)
     
