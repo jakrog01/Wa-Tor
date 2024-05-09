@@ -7,7 +7,6 @@ class SimulatedAreaGroupBox(QGroupBox):
     def __init__(self):
         super().__init__()
         self.setTitle("Simulation area")
-        self.area = [[0 for x in range(100)] for y in range (100)]
         self.__main_layout = QVBoxLayout()
         self.__main_layout.setAlignment(Qt.AlignCenter)
         self.setLayout(self.__main_layout)
@@ -25,11 +24,15 @@ class SimulatedAreaGroupBox(QGroupBox):
         self.__Picture_Label.setPixmap(pixmap)
         self.__main_layout.addWidget(self.__Picture_Label)
 
-    def start_simulation(self):
+    def start_simulation(self, area):
         self.__clear_main_layout()
-        self.__figure = SimulatedAreaFigure(100)
-        self.__figure.show_area(self.area)
+        self.__figure = SimulatedAreaFigure(len(area))
         self.__main_layout.addWidget(self.__figure)
+        self.simulation_step(area)
+    
+    def simulation_step(self, area):
+        self.__figure.show_area(area)
+        self.__figure.draw()
     
     def stop_simulation(self):
         self.__draw_logo_image()

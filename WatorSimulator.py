@@ -1,9 +1,10 @@
 from PySide6.QtWidgets import QApplication, QMainWindow, QHBoxLayout, QVBoxLayout, QWidget
 from UserControls.ControlPanel import ControlPanel
 from PySide6.QtGui import QIcon
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QTimer
 from Display.SimulatedAreaGroupBox import SimulatedAreaGroupBox
 from Display.GraphGroupBox import GraphGroupBox
+from WaTorSimulation.SimualtionArea import SimulationArea
 
 class UiMainWindow(QMainWindow):
     def __init__(self):
@@ -22,6 +23,10 @@ class UiMainWindow(QMainWindow):
         self.setCentralWidget(self.__main_window_central_widget)
         self.__main_layout.setAlignment(Qt.AlignLeft)
 
+        self.__timer = QTimer()
+        self.__timer.setInterval(100)
+        self.__timer.timeout.connect(self.__simulation_step)
+
         self.__add_central_panel()
         self.__add_simulated_area_widget()
         self.__add_simulation_graphs()
@@ -29,12 +34,13 @@ class UiMainWindow(QMainWindow):
     def __add_central_panel(self):
         self.__control_panel = ControlPanel()
         self.__control_panel.start_button_clicked_singal.connect(self.__simulation_button_clicked)
+        self.__control_panel.slider_changed_singal.connect(self.__speed_cange)
         self.__main_layout.addWidget(self.__control_panel)
     
     def __add_simulated_area_widget(self):
-        self.__groupbox = SimulatedAreaGroupBox()
-        self.__groupbox.setFixedSize(600,600)
-        self.__main_layout.addWidget(self.__groupbox)
+        self.__area_groupbox = SimulatedAreaGroupBox()
+        self.__area_groupbox.setFixedSize(600,600)
+        self.__main_layout.addWidget(self.__area_groupbox)
     
     def __add_simulation_graphs(self):
         self.__population_graph = GraphGroupBox("Phase-space plot")
@@ -56,20 +62,32 @@ class UiMainWindow(QMainWindow):
 
     def __start_simulation(self):
         self.__simulation_started = True
-        self.__groupbox.start_simulation()
+        simulation_params = self.__control_panel.simulation_params
+        self.simulation_area = SimulationArea(simulation_params[0], simulation_params[1], simulation_params[2], simulation_params[3],
+                                         simulation_params[4],simulation_params[5],simulation_params[6])
+        self.__area_groupbox.start_simulation(self.simulation_area.area)
         self.__population_graph.start_simulation()
         self.__populationovertime_graph.start_simulation()
         self.__control_panel.turn_off_widgets()
+        self.__timer.setInterval(2000 - ((self.__control_panel.speed - 1) * 200))
+        self.__timer.start()
+            
+    def __simulation_step(self):
+        self.simulation_area.step()
+        self.__area_groupbox.simulation_step(self.simulation_area.area)
+        self.__area_groupbox.update()
 
     def __stop_simulation(self):
         self.__simulation_started = False
-        self.__groupbox.stop_simulation()
+        self.__timer.stop()
+        self.__area_groupbox.stop_simulation()
         self.__population_graph.stop_simulation()
         self.__populationovertime_graph.stop_simulation()
         self.__control_panel.turn_on_widgets()
+    
+    def __speed_cange(self):
+        self.__timer.setInterval(1000 - ((self.__control_panel.speed - 1) * 100))
         
-        
-
 if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)

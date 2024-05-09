@@ -1,15 +1,38 @@
 from WaTorSimulation.AnimalsCollector import AnimalsCollector
-from copy import deepcopy
 import numpy as np
+from time import sleep
+from copy import deepcopy
 
 class SimulationArea():
-    def __init__(self, area_size: int, collector: AnimalsCollector):
+    def __init__(self, area_size: int, prey_population, predator_population, a, b, c, d):
         self.area = np.zeros((area_size, area_size))
-        self.animals_collector = collector
+        self.animals_collector = AnimalsCollector()
+        self.__init_simulation(area_size, prey_population, predator_population, a, b, c, d)
 
-    def move_animals(self):
+    def __init_simulation(self,area_size, prey_population, predator_population, a, b, c, d):
+        self.animals_collector.prepare_sets(self.area, area_size, prey_population, predator_population, a, b, c, d)
+
+    def step(self):
+        prey_new_birth = set()
+
         for prey in self.animals_collector.prey_set:
-            pass
-        
+            prey.movement(self.area, prey_new_birth)
+
+        if(len(prey_new_birth)) != 0:
+            self.animals_collector.prey_set.update(prey_new_birth)
+
+        predator_new_birth = set()
+        predator_death = set()
+        prey_death = set()
+
         for predator in self.animals_collector.predator_set:
-            pass
+            predator.movement(self.area, predator_new_birth, predator_death, prey_death)
+        
+        if len(predator_new_birth) != 0:
+            self.animals_collector.predator_set.update(predator_new_birth)
+        
+        if len(predator_death) != 0:
+            self.animals_collector.predator_set.difference_update(predator_death)
+        
+        if len(prey_death) != 0:
+            self.animals_collector.prey_set.difference_update(prey_death)
