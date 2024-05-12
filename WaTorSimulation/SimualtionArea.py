@@ -13,6 +13,10 @@ class SimulationArea():
         self.animals_collector.prepare_sets(self.area, area_size, prey_population, predator_population, a, b, c, d)
 
     def step(self):
+        self.__move_and_update_prey()
+        self.__move_and_update_predators()
+
+    def __move_and_update_prey(self):
         prey_new_birth = set()
 
         for prey in self.animals_collector.prey_set:
@@ -20,7 +24,8 @@ class SimulationArea():
 
         if len(prey_new_birth) != 0:
             self.animals_collector.prey_set.update(prey_new_birth)
-
+    
+    def __move_and_update_predators(self):
         predator_new_birth = set()
         predator_death = set()
         prey_death = set()
@@ -36,5 +41,11 @@ class SimulationArea():
         
         if len(prey_death) != 0:
             self.animals_collector.prey_set.difference_update(prey_death)
-
-        print (len(self.animals_collector.predator_set), " ", len(self.animals_collector.prey_set))
+    
+    @property
+    def prey_count(self):
+        return len(self.animals_collector.prey_set)
+    
+    @property
+    def predators_count(self):
+        return len(self.animals_collector.predator_set)

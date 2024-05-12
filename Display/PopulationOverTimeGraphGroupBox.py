@@ -1,9 +1,9 @@
 from PySide6.QtWidgets import QGroupBox, QVBoxLayout, QLabel
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap
-from Display.GraphFigure import GraphFigure
+from Display.PopulationOverTimeGraphFigure import PopulationOverGraphFigure
 
-class GraphGroupBox(QGroupBox):
+class PopulationOverGraphGroupBox(QGroupBox):
     def __init__(self, text):
         super().__init__()
         self.setTitle(text)
@@ -24,14 +24,15 @@ class GraphGroupBox(QGroupBox):
         self.__Picture_Label.setPixmap(pixmap)
         self.__main_layout.addWidget(self.__Picture_Label)
 
-    def start_simulation(self):
+    def start_simulation(self, xmax, ymax):
         self.__clear_main_layout()
-        self.__figure = GraphFigure(100)
+        self.__figure = PopulationOverGraphFigure(100)
         self.__main_layout.addWidget(self.__figure)
-        self.__figure.plot([0,1,2,3], [0,1,2,3])
+        self.__figure.plot(0, 0)
+
+    def simulation_step(self, yprey, ypredators):
+        self.__figure.plot(yprey, ypredators)
+        self.__figure.draw()
     
     def stop_simulation(self):
         self.__draw_logo_image()
-
-    def plot(self, x, y):
-        self.__figure.plot(x, y)
