@@ -35,6 +35,9 @@ class SpinBoxLabelGroup(QWidget):
     def turn_on_widgets(self):
         self.__spinbox.setEnabled(True)
     
+    def set_default_value(self):
+        self.__spinbox.setValue(self.__default_value)
+    
     def __emit_edit_finished_singal(self):
         self.spinbox_edit_finished_singal.emit(self.__groupbox.title())
 

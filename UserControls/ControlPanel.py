@@ -6,6 +6,7 @@ from PySide6.QtCore import Qt, Signal
 
 class ControlPanel(QWidget):
     start_button_clicked_singal = Signal()
+    reset_button_clicked_singal = Signal()
     slider_changed_singal = Signal()
 
     def __init__(self):
@@ -27,6 +28,7 @@ class ControlPanel(QWidget):
         self.__button_layout.addWidget(self.__start_button)
 
         self.__reset_button = QPushButton("RESET")
+        self.__reset_button.clicked.connect(self.__reset_params)
         self.__reset_button.setFixedSize(130,40)
         self.__button_layout.addWidget(self.__reset_button)
 
@@ -99,6 +101,10 @@ class ControlPanel(QWidget):
     def __stop_simulation(self):
         self.__start_button.setText("START")
         self.start_button_clicked_singal.emit()
+    
+    def __reset_params(self):
+        self.__set_default_params()
+        self.reset_button_clicked_singal.emit()
 
     def turn_off_widgets(self):
         for i in reversed(range(self.__parameters_layout.count())): 
@@ -108,6 +114,11 @@ class ControlPanel(QWidget):
         for i in reversed(range(self.__parameters_layout.count())): 
             self.__parameters_layout.itemAt(i).widget().turn_on_widgets()
     
+    def __set_default_params(self):
+        for i in reversed(range(self.__parameters_layout.count())): 
+            self.__parameters_layout.itemAt(i).widget().set_default_value()
+        self.__speed_slider.set_default_value()
+
     def __emit_edit_slider(self):
         self.slider_changed_singal.emit()
 

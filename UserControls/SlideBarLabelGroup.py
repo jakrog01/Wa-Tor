@@ -28,6 +28,9 @@ class SliderLabelGroup(QWidget):
     def __emit_edit_finished_singal(self):
         self.slider_edit_finished_singal.emit()
 
+    def set_default_value(self):
+        self.__slider.setValue(self.__default_value)
+        
     @property
     def value(self):
         return int(self.__slider.value())
