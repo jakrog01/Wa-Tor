@@ -4,7 +4,7 @@ from PySide6.QtGui import QIcon
 from PySide6.QtCore import Qt, QTimer
 from Display.SimulatedAreaGroupBox import SimulatedAreaGroupBox
 from Display.PopulationsGraphGroupBox import PopulationsGraphGroupBox
-from Display.PopulationOverTimeGraphGroupBox import PopulationOverGraphGroupBox
+from Display.PopulationOverTimeGraphGroupBox import PopulationOverTimeGraphGroupBox
 from WaTorSimulation.SimualtionArea import SimulationArea
 
 class UiMainWindow(QMainWindow):
@@ -47,7 +47,7 @@ class UiMainWindow(QMainWindow):
         self.__population_graph = PopulationsGraphGroupBox("Phase-space plot")
         self.__population_graph.setFixedSize(300,300)
 
-        self.__populationovertime_graph = PopulationOverGraphGroupBox("Populations over time")
+        self.__populationovertime_graph = PopulationOverTimeGraphGroupBox("Populations over time")
         self.__populationovertime_graph.setFixedSize(300,300)
 
         self.__graphs_layout = QVBoxLayout()
@@ -64,22 +64,23 @@ class UiMainWindow(QMainWindow):
     def __start_simulation(self):
         self.__simulation_started = True
         simulation_params = self.__control_panel.simulation_params
-        self.simulation_area = SimulationArea(simulation_params[0], simulation_params[1], simulation_params[2], simulation_params[3],
+        self.__simulation_area = SimulationArea(simulation_params[0], simulation_params[1], simulation_params[2], simulation_params[3],
                                          simulation_params[4],simulation_params[5],simulation_params[6])
-        self.__area_groupbox.start_simulation(self.simulation_area.area)
+        self.__area_groupbox.start_simulation(self.__simulation_area.area)
         self.__population_graph.start_simulation((simulation_params[0]**2) / 4, simulation_params[0]**2)
-        self.__populationovertime_graph.start_simulation(simulation_params[0]**2, simulation_params[0]**2)
+        self.__populationovertime_graph.start_simulation()
         self.__control_panel.turn_off_widgets()
         self.__timer.setInterval(500 - ((self.__control_panel.speed - 1) * 50))
         self.__timer.start()
             
     def __simulation_step(self):
-        self.simulation_area.step()
-        self.__area_groupbox.simulation_step(self.simulation_area.area)
+        self.__simulation_area.step()
+        self.__area_groupbox.simulation_step(self.__simulation_area.area)
+        self.__population_graph.simulation_step(self.__simulation_area.predators_count, self.__simulation_area.prey_count)
+        self.__populationovertime_graph.simulation_step(self.__simulation_area.prey_count, self.__simulation_area.predators_count)
+        self.__update_display_widgets()
 
-        self.__population_graph.simulation_step(self.simulation_area.predators_count, self.simulation_area.prey_count)
-        self.__populationovertime_graph.simulation_step(self.simulation_area.prey_count, self.simulation_area.predators_count)
-
+    def __update_display_widgets(self):
         self.__area_groupbox.update()
         self.__population_graph.update()
         self.__populationovertime_graph.update()

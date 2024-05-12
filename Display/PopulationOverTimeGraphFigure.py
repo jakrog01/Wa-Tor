@@ -6,11 +6,11 @@ from matplotlib.figure import Figure
 
 import numpy as np
 
-class PopulationOverGraphFigure(FigureCanvasQTAgg):
+class PopulationOverTimeGraphFigure(FigureCanvasQTAgg):
     def __init__(self, AreaSize):
         fig = Figure(figsize=(AreaSize, AreaSize), dpi=100)
         self.__axes = fig.add_subplot(111)
-        super(PopulationOverGraphFigure, self).__init__(fig)
+        super(PopulationOverTimeGraphFigure, self).__init__(fig)
         self.__xs = []
         self.__ysprey = []
         self.__yspredator = []
