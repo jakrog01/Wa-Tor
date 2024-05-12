@@ -1,6 +1,6 @@
 # Wa-Tor simulation model
 Wa-Tor model simulation written in Python. Simple graphical interface of this app allows you to define the initial parameters of the simulation and see its evolution in real time.
-The project was inspired by this [simulation](http://www.alife.pl/drapiezniki-i-ofiary-model-Lotki-Volterry).
+The project was inspired by this [simulation](http://en.alife.pl/predators-and-prey-the-Lotka-Volterra-model).
 
 # Required packages
 
