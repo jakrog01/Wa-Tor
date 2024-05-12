@@ -31,6 +31,13 @@ The program draws a phase diagram in real time and the relationship between pred
 Wa-tor is a simulation of an ecosystem consisting of only two species of animals: predators and prey.
 Wa-Tor model created and presented by [A. K. Dewdney](http://cs.gettysburg.edu/~tneller/cs107/wator_dewdney.pdf), is a translation of the [Lotka-Volterra equations](https://en.wikipedia.org/wiki/Lotka%E2%80%93Volterra_equations) into a discrete, two-dimensional plane.
 
+$$\begin{equation}
+\begin{cases}
+\dot{V} = aV(t) - bV(t)P(t)  \newline \\
+\dot{P} = bdP(t) -cP(t)
+\end{cases}
+\end{equation}$$
+
 ### Algorithm used in the simulation
 1. Simulation initialization
    - Random distribution of prey in the ecosystem area.
@@ -47,10 +54,5 @@ Wa-Tor model created and presented by [A. K. Dewdney](http://cs.gettysburg.edu/~
      - If a predator hunts its prey (moves to its field), it has a certain percentage of chance of successful hunting _(parameter b)_
      - If the predator does not hunt (or the hunt is unsuccessful), the predator uses energy to move. If the energy lost by it is equal to the parameter _(parameter c)_, the predator dies. A successful hunt resets the energy consumed by the predator.
     
-$$\begin{equation}
-\begin{cases}
-\dot{V} = aV(t) - bV(t)P(t)  \newline \\
-\dot{P} = bdP(t) -cP(t)
-\end{cases}
-\end{equation}$$
+
      
