@@ -29,5 +29,21 @@ The program draws a phase diagram in real time and the relationship between pred
 > Somewhere, in a direction that can only be called recreational at a distance limited only by one's programming prowess, the planet Wa-Tor swims among the stars. It is shaped like a torus, or doughnut, and is entirely covered with water.
 
 Wa-tor is a simulation of an ecosystem consisting of only two species of animals: predators and prey.
-Wa-Tor model created and presented by [A. K. Dewdney](http://cs.gettysburg.edu/~tneller/cs107/wator_dewdney.pdf) is a translation of the [Lotka-Volterra equations](https://en.wikipedia.org/wiki/Lotka%E2%80%93Volterra_equations) into a discrete, two-dimensional plane.
+Wa-Tor model created and presented by [A. K. Dewdney](http://cs.gettysburg.edu/~tneller/cs107/wator_dewdney.pdf), is a translation of the [Lotka-Volterra equations](https://en.wikipedia.org/wiki/Lotka%E2%80%93Volterra_equations) into a discrete, two-dimensional plane.
 
+### Algorithm used in the simulation
+1. Simulation initialization
+   - Random distribution of prey in the ecosystem area.
+   - Random distribution of predators in the ecosystem area.
+2. Start simulation based on discrete time steps
+   - Prey movement
+     -- Each prey moves to a random, empty adjacent field (PBCs).
+     -- If there are no free squares, the prey doesn't move.
+     -- After completing a set number of steps _(parameter a)_, the prey reproduces (leaving another prey on its field).
+   - Predators movement
+     -- Each predator moves to an adjacent field occupied by prey (PBCs).
+     -- If there is no prey in any adjacent field, the predator moves as the prey.
+     -- After completing a set number of steps _(parameter d)_, the predator reproduces (leaving another predator on its field).
+     -- If a predator hunts its prey (moves to its field), it has a certain percentage of chance of successful hunting _(parameter b)_
+     -- If the predator does not hunt (or the hunt is unsuccessful), the predator uses energy to move. If the energy lost by it is equal to the parameter _(parameter c)_, the predator dies. A successful hunt resets the energy consumed by the predator.
+     
