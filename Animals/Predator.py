@@ -15,43 +15,44 @@ class Predator(AbstractAnimal):
     def movement(self, area, new_predator_set, delete_predator_set, delete_prey_set):
         directions = self.__choose_direction(area)
         possible_moves = directions[0] 
-        next_move_value = directions[1]
+        next_move_cell_value = directions[1]
 
         direction = randint(0, len(possible_moves)-1)
         move = possible_moves[direction]
 
-        area[self.y][self.x] = 0
+        area[self.y][self.x] = None
 
-        if next_move_value == 0:
+        if next_move_cell_value == 0:
             if move != (0,0):
                 if self.__death():
-                    area[self.y][self.x] = 0
+                    area[self.y][self.x] = None
                     delete_predator_set.add(self)
                 elif self.__propagation():
-                    area[self.y][self.x] = 2
-                    new_predator_set.add(Predator(self.x, self.y, self.__area_size, self.__b, self.__c, self.__d))
+                    new_predator = Predator(self.x, self.y, self.__area_size, self.__b, self.__c, self.__d)
+                    area[self.y][self.x] = new_predator
+                    new_predator_set.add(new_predator)
             
-        elif next_move_value == 1:
+        elif next_move_cell_value == 1:
             if randint(1,100) <= self.__b:
                 self.__death_counter = 0
-                delete_prey_set.add(Prey(0 ,self.__norm_to_boarders(self.x, move[1]), self.__norm_to_boarders(self.y, move[0]), 0))
+                delete_prey_set.add(area[self.__norm_to_boarders(self.y, move[0])][self.__norm_to_boarders(self.x, move[1])])
                 if self.__propagation():
-                    area[self.y][self.x] = 2
-                    new_predator_set.add(Predator(self.x, self.y, self.__area_size, self.__b, self.__c, self.__d))
+                    new_predator = Predator(self.x, self.y, self.__area_size, self.__b, self.__c, self.__d)
+                    area[self.y][self.x] = new_predator
+                    new_predator_set.add(new_predator)
             else:
                 self.move = (0,0)
                 if self.__death():
-                    area[self.y][self.x] = 0
+                    area[self.y][self.x] = None
                     delete_predator_set.add(self)
 
         if self not in delete_predator_set:
+            self.__steps_counter += 1
             self.y = self.__norm_to_boarders(self.y, move[0])
             self.x = self.__norm_to_boarders(self.x, move[1])
-            area[self.y][self.x] = 2
+            area[self.y][self.x] = self
 
     def __propagation(self):
-        self.__steps_counter += 1
-
         if self.__steps_counter >= self.__d:
             self.__steps_counter = 0
             return True
@@ -64,30 +65,50 @@ class Predator(AbstractAnimal):
         return False
 
     def __choose_direction(self, area):
-        directions = self.__find_path(area, 1)
+        directions = self.__find_prey(area)
         if directions[0] == [(0,0)]:
-            directions = self.__find_path(area, 0)
+            directions = self.__find_path(area)
         return directions
         
-    def __find_path(self, area, value):
+    def __find_path(self, area):
         directions = []
 
-        if area[self.__norm_to_boarders(self.y, 1)][self.x] == value:
+        if area[self.__norm_to_boarders(self.y, 1)][self.x] is None:
             directions.append((1,0))
         
-        if area[self.__norm_to_boarders(self.y, -1)][self.x] == value:
+        if area[self.__norm_to_boarders(self.y, -1)][self.x] is None:
             directions.append((-1,0))
         
-        if area[self.y][self.__norm_to_boarders(self.x,1)] == value:
+        if area[self.y][self.__norm_to_boarders(self.x,1)] is None:
             directions.append((0,1))
         
-        if area[self.y][self.__norm_to_boarders(self.x,-1)] == value:
+        if area[self.y][self.__norm_to_boarders(self.x,-1)] is None:
             directions.append((0,-1))
         
         if len(directions) != 0:
-            return [directions,value]
+            return [directions, 0]
         else:
-            return [[(0,0)], value]
+            return [[(0,0)], 0]
+
+    def __find_prey(self, area):
+        directions = []
+
+        if isinstance(area[self.__norm_to_boarders(self.y, 1)][self.x], Prey):
+            directions.append((1,0))
+        
+        if isinstance(area[self.__norm_to_boarders(self.y, -1)][self.x], Prey):
+            directions.append((-1,0))
+        
+        if isinstance(area[self.y][self.__norm_to_boarders(self.x,1)], Prey):
+            directions.append((0,1))
+        
+        if isinstance(area[self.y][self.__norm_to_boarders(self.x,-1)], Prey):
+            directions.append((0,-1))
+        
+        if len(directions) != 0:
+            return [directions, 1]
+        else:
+            return [[(0,0)], 1]        
         
     def __norm_to_boarders(self, value, step):
         result = value + step
@@ -97,3 +118,7 @@ class Predator(AbstractAnimal):
             return result + self.__area_size
         else:
             return result
+    
+    @property
+    def color(self):
+        return 2

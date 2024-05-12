@@ -86,7 +86,7 @@ class UiMainWindow(QMainWindow):
         self.__control_panel.turn_on_widgets()
     
     def __speed_cange(self):
-        self.__timer.setInterval(1000 - ((self.__control_panel.speed - 1) * 100))
+        self.__timer.setInterval(500 - ((self.__control_panel.speed - 1) * 50))
         
 if __name__ == "__main__":
     import sys

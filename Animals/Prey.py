@@ -14,16 +14,17 @@ class Prey(AbstractAnimal):
         direction = randint(0, len(possible_moves)-1)
         move = possible_moves[direction]
 
-        area[self.y][self.x] = 0
+        area[self.y][self.x] = None
 
         if move != (0,0):
             if self.__propagation():
-                area[self.y][self.x] = 1
-                new_prey_set.add(Prey(self.__area_size, self.x, self.y, self.__a))
+                new_prey = Prey(self.__area_size, self.x, self.y, self.__a)
+                area[self.y][self.x] = new_prey
+                new_prey_set.add(new_prey)
 
         self.y = self.__norm_to_boarders(self.y, move[0])
         self.x = self.__norm_to_boarders(self.x, move[1])
-        area[self.y][self.x] = 1
+        area[self.y][self.x] = self
 
     def __propagation(self):
         self.__steps_counter += 1
@@ -36,16 +37,16 @@ class Prey(AbstractAnimal):
     def __choose_direction(self, area):
         directions = []
 
-        if area[self.__norm_to_boarders(self.y, 1)][self.x] == 0:
+        if area[self.__norm_to_boarders(self.y, 1)][self.x] is None:
             directions.append((1,0))
         
-        if area[self.__norm_to_boarders(self.y, -1)][self.x] == 0:
+        if area[self.__norm_to_boarders(self.y, -1)][self.x] is None:
             directions.append((-1,0))
         
-        if area[self.y][self.__norm_to_boarders(self.x,1)] == 0:
+        if area[self.y][self.__norm_to_boarders(self.x,1)] is None:
             directions.append((0,1))
         
-        if area[self.y][self.__norm_to_boarders(self.x,-1)] == 0:
+        if area[self.y][self.__norm_to_boarders(self.x,-1)] is None:
             directions.append((0,-1))
         
         if len(directions) != 0:
@@ -62,12 +63,8 @@ class Prey(AbstractAnimal):
         else:
             return result
         
-    def __eq__(self, other):
-        if isinstance(other, Prey):
-            return self.x == other.x and self.y == other.y
-        return False
-
-    def __hash__(self):
-        return hash(self.x ** self.y)
+    @property
+    def color(self):
+        return 1
 
         
