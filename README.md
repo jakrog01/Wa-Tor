@@ -1,5 +1,5 @@
-# Wa-tor simulation model
-Wa-tor model simulation written in Python. Simple graphical interface of this app allows you to define the initial parameters of the simulation and see its evolution in real time.
+# Wa-Tor simulation model
+Wa-Tor model simulation written in Python. Simple graphical interface of this app allows you to define the initial parameters of the simulation and see its evolution in real time.
 The project was inspired by this [simulation](http://www.alife.pl/drapiezniki-i-ofiary-model-Lotki-Volterry).
 
 # Required packages
@@ -26,10 +26,10 @@ The program draws a phase diagram in real time and the relationship between pred
 
 ![Simulation Screen](https://github.com/jakrog01/Wator/assets/141222606/55d61a38-2244-4d51-975c-f33dbaf3139a)
 
-## Wa-tor alghoritm
+## Wa-Tor alghoritm
 > Somewhere, in a direction that can only be called recreational at a distance limited only by one's programming prowess, the planet Wa-Tor swims among the stars. It is shaped like a torus, or doughnut, and is entirely covered with water.
 
-Wa-tor is a simulation of an ecosystem consisting of only two species of animals: predators and prey.
+Wa-Tor is a simulation of an ecosystem consisting of only two species of animals: predators and prey.
 Wa-Tor model created and presented by [A. K. Dewdney](http://cs.gettysburg.edu/~tneller/cs107/wator_dewdney.pdf), is a translation of the [Lotka-Volterra equations](https://en.wikipedia.org/wiki/Lotka%E2%80%93Volterra_equations) into a discrete, two-dimensional plane.
 
 $$\begin{equation}
