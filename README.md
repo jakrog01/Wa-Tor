@@ -3,13 +3,9 @@ Wa-tor model simulation written in Python. Simple graphical interface of this ap
 
 # Required packages
 
-You will need pyside6, numpy and matplotlib packages to run the application, just write:
+You will need pyside6, numpy and matplotlib packages to run the application:
 ```
 pip install pygame
-```
-```
 pip install numpy
-```
-```
 pip install matplotlib
 ```
