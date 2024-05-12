@@ -35,6 +35,7 @@ class UiMainWindow(QMainWindow):
     def __add_central_panel(self):
         self.__control_panel = ControlPanel()
         self.__control_panel.start_button_clicked_singal.connect(self.__simulation_button_clicked)
+        self.__control_panel.reset_button_clicked_singal.connect(self.__reset_simluation)
         self.__control_panel.slider_changed_singal.connect(self.__speed_cange)
         self.__main_layout.addWidget(self.__control_panel)
     
@@ -93,6 +94,11 @@ class UiMainWindow(QMainWindow):
         self.__populationovertime_graph.stop_simulation()
         self.__control_panel.turn_on_widgets()
     
+    def __reset_simluation(self):
+        if self.__simulation_started == True:
+            self.__stop_simulation()
+
+
     def __speed_cange(self):
         self.__timer.setInterval(500 - ((self.__control_panel.speed - 1) * 50))
         

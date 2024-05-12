@@ -9,6 +9,7 @@ import numpy as np
 class PopulationOverTimeGraphFigure(FigureCanvasQTAgg):
     def __init__(self, AreaSize):
         fig = Figure(figsize=(AreaSize, AreaSize), dpi=100)
+        fig.subplots_adjust(left=0.2, bottom = 0.15)
         self.__axes = fig.add_subplot(111)
         super(PopulationOverTimeGraphFigure, self).__init__(fig)
         self.__xs = []
@@ -36,6 +37,10 @@ class PopulationOverTimeGraphFigure(FigureCanvasQTAgg):
             self.__yspredator = yspredator
 
         self.__axes.set_xticks([])
+        self.__axes.set_ylabel("Population", fontsize = 8)
+        self.__axes.set_xlabel("Time", fontsize = 8)
         self.__axes.set_xlim(0, 40)
+        self.__axes.tick_params(axis='both', which='major', labelsize=5)
+        self.__axes.set_ylim(0, max(max(self.__yspredator) + 250, max(self.__ysprey) + 250))
         self.__axes.scatter(self.__xs, self.__ysprey, color = "blue", alpha=self.__alphas)
         self.__axes.scatter(self.__xs, self.__yspredator, color = "red", alpha=self.__alphas)

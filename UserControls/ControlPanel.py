@@ -6,6 +6,7 @@ from PySide6.QtCore import Qt, Signal
 
 class ControlPanel(QWidget):
     start_button_clicked_singal = Signal()
+    reset_button_clicked_singal = Signal()
     slider_changed_singal = Signal()
 
     def __init__(self):
@@ -27,6 +28,7 @@ class ControlPanel(QWidget):
         self.__button_layout.addWidget(self.__start_button)
 
         self.__reset_button = QPushButton("RESET")
+        self.__reset_button.clicked.connect(self.__reset_params)
         self.__reset_button.setFixedSize(130,40)
         self.__button_layout.addWidget(self.__reset_button)
 
@@ -44,7 +46,7 @@ class ControlPanel(QWidget):
         
         scroll_content = QWidget()
         scroll_content.setLayout(self.__simulation_control_layout)
-        self.__speed_slider = SliderLabelGroup("Simulation speed:", 0, 10)
+        self.__speed_slider = SliderLabelGroup("Simulation speed:", 0, 10, 5)
         self.__speed_slider.slider_edit_finished_singal.connect(self.__emit_edit_slider)
         self.__simulation_control_layout.addWidget(self.__speed_slider)
         params_label = QLabel("SIMULATION PARAMTERS")
@@ -56,27 +58,27 @@ class ControlPanel(QWidget):
     def __add_parameters_controls(self):
         self.__parameters_layout = QVBoxLayout()
 
-        self.__area_size_spinbox = SpinBoxLabelGroup("Area size", "Size of simualtion area:", 10, 150)
+        self.__area_size_spinbox = SpinBoxLabelGroup("Area size", "Size of simualtion area:", 10, 200, 100)
         self.__parameters_layout.addWidget(self.__area_size_spinbox)
 
-        self.__prey_population_spinbox = SpinBoxLabelGroup("Prey population", "Initial prey density (%):", 0, 100)
+        self.__prey_population_spinbox = SpinBoxLabelGroup("Prey population", "Initial prey density (%):", 0, 100, 60)
         self.__prey_population_spinbox.spinbox_edit_finished_singal.connect(self.__spinbox_change)
         self.__parameters_layout.addWidget(self.__prey_population_spinbox)
 
-        self.__predator_population_spinbox = SpinBoxLabelGroup("Predator population", "Initial predator density (%):", 0, 100)
+        self.__predator_population_spinbox = SpinBoxLabelGroup("Predator population", "Initial predator density (%):", 0, 100, 4)
         self.__predator_population_spinbox.spinbox_edit_finished_singal.connect(self.__spinbox_change)
         self.__parameters_layout.addWidget(self.__predator_population_spinbox)
         
-        self.__param_a_spinbox = SpinBoxLabelGroup("a", "Prey propagation (steps):", 0, 10)
+        self.__param_a_spinbox = SpinBoxLabelGroup("a", "Prey propagation (steps):", 0, 10, 5)
         self.__parameters_layout.addWidget(self.__param_a_spinbox)
 
-        self.__param_b_spinbox = SpinBoxLabelGroup("b", "Hunting effectiveness (%):", 0, 100)
+        self.__param_b_spinbox = SpinBoxLabelGroup("b", "Hunting effectiveness (%):", 0, 100, 100)
         self.__parameters_layout.addWidget(self.__param_b_spinbox)
         
-        self.__param_c_spinbox = SpinBoxLabelGroup("c", "Predator death rate (steps):", 0, 10)
+        self.__param_c_spinbox = SpinBoxLabelGroup("c", "Predator death rate (steps):", 0, 10, 3)
         self.__parameters_layout.addWidget(self.__param_c_spinbox)
 
-        self.__param_d_spinbox = SpinBoxLabelGroup("d", "Predator propagation (steps):", 0, 20)
+        self.__param_d_spinbox = SpinBoxLabelGroup("d", "Predator propagation (steps):", 0, 20, 7)
         self.__parameters_layout.addWidget(self.__param_d_spinbox)
 
         self.__simulation_control_layout.addLayout(self.__parameters_layout)
@@ -99,6 +101,10 @@ class ControlPanel(QWidget):
     def __stop_simulation(self):
         self.__start_button.setText("START")
         self.start_button_clicked_singal.emit()
+    
+    def __reset_params(self):
+        self.__set_default_params()
+        self.reset_button_clicked_singal.emit()
 
     def turn_off_widgets(self):
         for i in reversed(range(self.__parameters_layout.count())): 
@@ -108,6 +114,11 @@ class ControlPanel(QWidget):
         for i in reversed(range(self.__parameters_layout.count())): 
             self.__parameters_layout.itemAt(i).widget().turn_on_widgets()
     
+    def __set_default_params(self):
+        for i in reversed(range(self.__parameters_layout.count())): 
+            self.__parameters_layout.itemAt(i).widget().set_default_value()
+        self.__speed_slider.set_default_value()
+
     def __emit_edit_slider(self):
         self.slider_changed_singal.emit()
 
