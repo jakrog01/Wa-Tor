@@ -41,4 +41,4 @@ class PopulationsGraphFigure(FigureCanvasQTAgg):
         self.__axes.set_xlabel("Predator population [%]", fontsize = 8)
         self.__axes.tick_params(axis='both', which='major', labelsize=5)
         self.__axes.set_ylim(0,self.__ymax)
-        self.__axes.scatter(self.__xs, self.__ys, color = marks_color, alpha=self.__alphas)
+        self.__axes.scatter(self.__xs, self.__ys, color = marks_color, alpha=self.__alphas, s=5)
