@@ -35,7 +35,7 @@ Wa-Tor model created and presented by [A. K. Dewdney](http://cs.gettysburg.edu/~
 1. Simulation initialization
    - Random distribution of prey in the ecosystem area.
    - Random distribution of predators in the ecosystem area.
-2. Start simulation based on discrete time steps
+2. Run simulation based on discrete time steps
    - Prey movement
      - Each prey moves to a random, empty adjacent field (PBCs).
      - If there are no free squares, the prey doesn't move.
