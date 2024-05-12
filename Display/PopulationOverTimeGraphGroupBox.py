@@ -24,9 +24,9 @@ class PopulationOverTimeGraphGroupBox(QGroupBox):
         self.__Picture_Label.setPixmap(pixmap)
         self.__main_layout.addWidget(self.__Picture_Label)
 
-    def start_simulation(self):
+    def start_simulation(self, area_size):
         self.__clear_main_layout()
-        self.__figure = PopulationOverTimeGraphFigure(100)
+        self.__figure = PopulationOverTimeGraphFigure(area_size)
         self.__main_layout.addWidget(self.__figure)
         self.__figure.plot(0, 0)
 
