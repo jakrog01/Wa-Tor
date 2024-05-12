@@ -4,9 +4,9 @@ from PySide6.QtCore import Qt, Signal
 class SpinBoxLabelGroup(QWidget):
     spinbox_edit_finished_singal = Signal(str)
 
-    def __init__(self, text, label_text, min_val, max_val):
+    def __init__(self, text, label_text, min_val, max_val, def_value):
         super().__init__()
-
+        self.__default_value = def_value
         self.setFixedSize(280, 90)
 
         self.__groupbox = QGroupBox(f"{text}")
@@ -17,7 +17,7 @@ class SpinBoxLabelGroup(QWidget):
         self.__spinbox.setMinimum(min_val)
         self.__spinbox.setMaximum(max_val)
         self.__spinbox.setSingleStep(1)
-        self.__spinbox.setValue(max_val//2)
+        self.__spinbox.setValue(self.__default_value)
         self.__spinbox.setFixedSize(80, 30)
         self.__spinbox.valueChanged.connect(self.__emit_edit_finished_singal)
 
