@@ -103,6 +103,7 @@ class ControlPanel(QWidget):
         self.start_button_clicked_singal.emit()
     
     def __reset_params(self):
+        self.__start_button.setText("START")
         self.__set_default_params()
         self.reset_button_clicked_singal.emit()
 

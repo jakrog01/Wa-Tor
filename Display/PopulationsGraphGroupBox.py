@@ -24,9 +24,9 @@ class PopulationsGraphGroupBox(QGroupBox):
         self.__Picture_Label.setPixmap(pixmap)
         self.__main_layout.addWidget(self.__Picture_Label)
 
-    def start_simulation(self, xmax, ymax):
+    def start_simulation(self, xmax, ymax, area_size):
         self.__clear_main_layout()
-        self.__figure = PopulationsGraphFigure(100, xmax, ymax)
+        self.__figure = PopulationsGraphFigure(area_size, xmax, ymax)
         self.__main_layout.addWidget(self.__figure)
         self.__figure.plot(0, 0, "blue")
 

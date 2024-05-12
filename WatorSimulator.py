@@ -68,8 +68,8 @@ class UiMainWindow(QMainWindow):
         self.__simulation_area = SimulationArea(simulation_params[0], simulation_params[1], simulation_params[2], simulation_params[3],
                                          simulation_params[4],simulation_params[5],simulation_params[6])
         self.__area_groupbox.start_simulation(self.__simulation_area.area)
-        self.__population_graph.start_simulation((simulation_params[0]**2) / 4, simulation_params[0]**2)
-        self.__populationovertime_graph.start_simulation()
+        self.__population_graph.start_simulation((simulation_params[0]**2) / 4, simulation_params[0]**2, simulation_params[0])
+        self.__populationovertime_graph.start_simulation(simulation_params[0])
         self.__control_panel.turn_off_widgets()
         self.__timer.setInterval(500 - ((self.__control_panel.speed - 1) * 50))
         self.__timer.start()
