@@ -56,6 +56,8 @@ $$\begin{equation}
      - If the predator does not hunt (or the hunt is unsuccessful), the predator uses energy to move. If the energy lost by it is equal to the parameter _(parameter c)_, the predator dies. A successful hunt resets the energy consumed by the predator.
 
 ### Result
-![SimulationGif](https://github.com/jakrog01/Wa-Tor/assets/141222606/b764269e-f7e0-4c66-838e-4d6c08036a7b)
+<div style="margin: 0 auto;">
+   ![SimulationGif](https://github.com/jakrog01/Wa-Tor/assets/141222606/b764269e-f7e0-4c66-838e-4d6c08036a7b)
+</div>
 
      
