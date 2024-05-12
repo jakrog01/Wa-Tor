@@ -42,5 +42,5 @@ class PopulationOverTimeGraphFigure(FigureCanvasQTAgg):
         self.__axes.set_xlim(0, 40)
         self.__axes.tick_params(axis='both', which='major', labelsize=5)
         self.__axes.set_ylim(0, max(max(self.__yspredator) + 250, max(self.__ysprey) + 250))
-        self.__axes.scatter(self.__xs, self.__ysprey, color = "blue", alpha=self.__alphas)
-        self.__axes.scatter(self.__xs, self.__yspredator, color = "red", alpha=self.__alphas)
+        self.__axes.scatter(self.__xs, self.__ysprey, color = "blue", alpha=self.__alphas, s = 20)
+        self.__axes.scatter(self.__xs, self.__yspredator, color = "red", alpha=self.__alphas, s= 20)
