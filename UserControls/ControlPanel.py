@@ -76,7 +76,7 @@ class ControlPanel(QWidget):
         self.__param_c_spinbox = SpinBoxLabelGroup("c", "Predator death rate (steps):", 0, 10)
         self.__parameters_layout.addWidget(self.__param_c_spinbox)
 
-        self.__param_d_spinbox = SpinBoxLabelGroup("d", "Predator propagation (steps):", 0, 10)
+        self.__param_d_spinbox = SpinBoxLabelGroup("d", "Predator propagation (steps):", 0, 20)
         self.__parameters_layout.addWidget(self.__param_d_spinbox)
 
         self.__simulation_control_layout.addLayout(self.__parameters_layout)

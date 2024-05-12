@@ -15,6 +15,20 @@ class SimulatedAreaFigure(FigureCanvasQTAgg):
         
     def show_area(self, area):
         self.__axes.cla()
-        self.__axes.imshow(area, cmap = self.__cmap, norm=self.__norm)
+        self.__axes.imshow(self.__color_matrix(area), cmap = self.__cmap, norm=self.__norm)
         self.__axes.axis("off")
+
+    def __color_matrix(self,area):
+        color_matrix_result = []
+
+        for line in area:
+            new_color_line = []
+            for object in line:
+                if object is not None:
+                    new_color_line.append(object.color)
+                else:
+                    new_color_line.append(0)
+            color_matrix_result.append(new_color_line)
+        
+        return color_matrix_result
 

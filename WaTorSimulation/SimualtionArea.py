@@ -5,7 +5,7 @@ from copy import deepcopy
 
 class SimulationArea():
     def __init__(self, area_size: int, prey_population, predator_population, a, b, c, d):
-        self.area = np.zeros((area_size, area_size))
+        self.area = ([[None for x in range (area_size)] for y in range (area_size)])
         self.animals_collector = AnimalsCollector()
         self.__init_simulation(area_size, prey_population, predator_population, a, b, c, d)
 
@@ -18,7 +18,7 @@ class SimulationArea():
         for prey in self.animals_collector.prey_set:
             prey.movement(self.area, prey_new_birth)
 
-        if(len(prey_new_birth)) != 0:
+        if len(prey_new_birth) != 0:
             self.animals_collector.prey_set.update(prey_new_birth)
 
         predator_new_birth = set()
@@ -36,3 +36,5 @@ class SimulationArea():
         
         if len(prey_death) != 0:
             self.animals_collector.prey_set.difference_update(prey_death)
+
+        print (len(self.animals_collector.predator_set), " ", len(self.animals_collector.prey_set))
