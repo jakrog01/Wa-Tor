@@ -34,8 +34,8 @@ Wa-Tor model created and presented by [A. K. Dewdney](http://cs.gettysburg.edu/~
 
 $$\begin{equation}
 \begin{cases}
-\dot{V} = aV(t) - bV(t)P(t)  \newline \\
-\dot{P} = bdP(t) -cP(t)
+\dot{V} = \alpha (a)V(t) - \beta (b)V(t)P(t)  \newline \\
+\dot{P} = \delta (b,d) P(t) - \gamma (c) P(t)
 \end{cases}
 \end{equation}$$
 
