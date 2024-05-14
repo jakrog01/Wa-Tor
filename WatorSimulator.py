@@ -13,7 +13,7 @@ class UiMainWindow(QMainWindow):
         self.__setup_ui()
     
     def __setup_ui(self):
-        self.setWindowTitle("Wator simulatior")
+        self.setWindowTitle("Wa-Tor simulatior")
         self.setWindowIcon(QIcon("Graphics/Icon.png"))
         self.setFixedSize(1250, 650)
 
