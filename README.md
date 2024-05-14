@@ -1,5 +1,6 @@
-# Wa-tor simulation model
-Wa-tor model simulation written in Python. Simple graphical interface of this app allows you to define the initial parameters of the simulation and see its evolution in real time.
+# Wa-Tor simulation model
+Wa-Tor model simulation written in Python. Simple graphical interface of this app allows you to define the initial parameters of the simulation and see its evolution in real time.
+The project was inspired by this [simulation](http://en.alife.pl/predators-and-prey-the-Lotka-Volterra-model).
 
 # Required packages
 
@@ -17,7 +18,7 @@ Upon launching the application, a simple graphical interface is presented. On th
 ![Start Screen](https://github.com/jakrog01/Wator/assets/141222606/76bf8e6c-ff35-4398-839e-1f6c1627bc62)
 
 Users can manipulate the simulation speed via the control panel.
-Below the speed slider lies a control panel, where users can adjust the initial simulation parameters. *Once the simulation is initiated, these parameters remain unalterable.*
+Below the speed slider lies a simulation parameters panel, where users can adjust the initial simulation parameters. *Once the simulation is initiated, these parameters remain unalterable.*
 
 Upon initiating the simulation, the program undergoes a brief setup period to prepare the area, then a graphic of the area appears in a large window. 
 The program draws a phase diagram in real time and the relationship between predator and prey populations in subsequent time steps.
@@ -25,16 +26,16 @@ The program draws a phase diagram in real time and the relationship between pred
 
 ![Simulation Screen](https://github.com/jakrog01/Wator/assets/141222606/55d61a38-2244-4d51-975c-f33dbaf3139a)
 
-## Wa-tor alghoritm
+## Wa-Tor alghoritm
 > Somewhere, in a direction that can only be called recreational at a distance limited only by one's programming prowess, the planet Wa-Tor swims among the stars. It is shaped like a torus, or doughnut, and is entirely covered with water.
 
-Wa-tor is a simulation of an ecosystem consisting of only two species of animals: predators and prey.
+Wa-Tor is a simulation of an ecosystem consisting of only two species of animals: predators and prey.
 Wa-Tor model created and presented by [A. K. Dewdney](http://cs.gettysburg.edu/~tneller/cs107/wator_dewdney.pdf), is a translation of the [Lotka-Volterra equations](https://en.wikipedia.org/wiki/Lotka%E2%80%93Volterra_equations) into a discrete, two-dimensional plane.
 
 $$\begin{equation}
 \begin{cases}
-\dot{V} = aV(t) - bV(t)P(t)  \newline \\
-\dot{P} = bdP(t) -cP(t)
+\dot{V} = \alpha (a)V(t) - \beta (b)V(t)P(t)  \newline \\
+\dot{P} = \delta (b,d) V(t) P(t) - \gamma (c) P(t)
 \end{cases}
 \end{equation}$$
 
@@ -44,15 +45,18 @@ $$\begin{equation}
    - Random distribution of predators in the ecosystem area.
 2. Run simulation based on discrete time steps
    - Prey movement
-     - Each prey moves to a random, empty adjacent field (PBCs).
+     - Each prey moves to a random, empty adjacent field ([PBCs](https://en.wikipedia.org/wiki/Periodic_boundary_conditions)).
      - If there are no free squares, the prey doesn't move.
      - After completing a set number of steps _(parameter a)_, the prey reproduces (leaving another prey on its field).
    - Predators movement
-     - Each predator moves to an adjacent field occupied by prey (PBCs).
+     - Each predator moves to an adjacent field occupied by prey ([PBCs](https://en.wikipedia.org/wiki/Periodic_boundary_conditions)).
      - If there is no prey in any adjacent field, the predator moves as the prey.
      - After completing a set number of steps _(parameter d)_, the predator reproduces (leaving another predator on its field).
      - If a predator hunts its prey (moves to its field), it has a certain percentage of chance of successful hunting _(parameter b)_
      - If the predator does not hunt (or the hunt is unsuccessful), the predator uses energy to move. If the energy lost by it is equal to the parameter _(parameter c)_, the predator dies. A successful hunt resets the energy consumed by the predator.
-    
 
+### Result
+<p align="center">
+  <img src="https://github.com/jakrog01/Wa-Tor/assets/141222606/b764269e-f7e0-4c66-838e-4d6c08036a7b" alt="animated" />
+</p>
      
