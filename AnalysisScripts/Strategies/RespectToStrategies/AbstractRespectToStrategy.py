@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class RespectToBStrategy():
+class AbstractRespectToStrategy():
     def __init__(self):
         pass
     
