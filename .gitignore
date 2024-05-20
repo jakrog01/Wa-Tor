@@ -1,2 +1,3 @@
 /.venv
-/AnalysisResults/*
+/AnalysisResults/png/*
+/AnalysisResults/txt/*

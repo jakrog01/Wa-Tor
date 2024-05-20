@@ -38,7 +38,6 @@ class PlotOscilationInTimeStrategy():
                                                                    a_param, b_param, c_param, d_param])
 
     def create_graph(self, params_list):
-        print(params_list)
         area = SimulationArea(params_list[0], params_list[1], params_list[2], params_list[3],
                               params_list[4], params_list[5], params_list[6])
         prey_counts = []
@@ -62,8 +61,22 @@ class PlotOscilationInTimeStrategy():
             prey_counts_std.append(np.std(prey_counts_to_average))
             predator_counts_std.append(np.std(predators_counts_to_average))
 
+            if self.__error_bars:
+                self.__plot_result_with_bars(iterations, prey_counts, prey_counts_std, predator_counts, predator_counts_std, params_list)
+            else:
+                self.__plot_result_without_bars(iterations, prey_counts, predator_counts, params_list)
+
+    def __plot_result_with_bars(self, iterations, prey_counts, prey_counts_std, predator_counts, predator_counts_std, params_list):
         plt.errorbar(iterations, prey_counts, yerr= prey_counts_std, color = "blue", label = "Prey population")
         plt.errorbar(iterations, predator_counts, yerr= predator_counts_std, color = "red", label = "Predator population")
+        plt.legend()
+        plt.tight_layout()
+        plt.savefig(f"AnalysisResults/{params_list[0]}_{params_list[1]}_{params_list[2]}_{params_list[3]}_{params_list[4]}_{params_list[5]}_{params_list[6]}Graph{self.__iteration_per_step}")
+        plt.cla()
+    
+    def __plot_result_without_bars(self, iterations, prey_counts, predator_counts, params_list):
+        plt.scatter(iterations, prey_counts, color = "blue", label = "Prey population")
+        plt.scatter(iterations, predator_counts, color = "red", label = "Predator population")
         plt.legend()
         plt.tight_layout()
         plt.savefig(f"AnalysisResults/{params_list[0]}_{params_list[1]}_{params_list[2]}_{params_list[3]}_{params_list[4]}_{params_list[5]}_{params_list[6]}Graph{self.__iteration_per_step}")
