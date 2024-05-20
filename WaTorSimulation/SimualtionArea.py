@@ -1,7 +1,8 @@
 from WaTorSimulation.AnimalsCollector import AnimalsCollector
-import numpy as np
-from time import sleep
+from Animals.Prey import Prey
+from Animals.Predator import Predator
 from copy import deepcopy
+import numpy as np
 
 class SimulationArea():
     def __init__(self, area_size: int, prey_population, predator_population, a, b, c, d):
@@ -42,6 +43,15 @@ class SimulationArea():
         if len(prey_death) != 0:
             self.animals_collector.prey_set.difference_update(prey_death)
     
+    def end_of_simulation(self):
+        result = ( self.__find_value_in_area(1) and self.__find_value_in_area(2))
+        return not result
+
+    def __find_value_in_area(self, value):
+        area = np.array(self.num_area)
+        if np.any(area == value):
+            return True
+    
     @property
     def prey_count(self):
         return len(self.animals_collector.prey_set)
@@ -49,3 +59,19 @@ class SimulationArea():
     @property
     def predators_count(self):
         return len(self.animals_collector.predator_set)
+    
+    @property
+    def num_area(self):
+        num_matrix = []
+        for line in self.area:
+            new_line = []
+            for value in line:
+                if isinstance(value, Prey):
+                    new_line.append(1)
+                elif isinstance(value, Predator):
+                    new_line.append(2)
+                else:
+                    new_line.append(0)
+            num_matrix.append(deepcopy(new_line))
+        return num_matrix
+            
