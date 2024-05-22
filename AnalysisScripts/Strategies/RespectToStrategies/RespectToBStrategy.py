@@ -17,13 +17,13 @@ class RespectToBStrategy(AbstractRespectToStrategy):
             
             self.__b_params = b_params_tuple
             self.__prepare_parameters_list(area_sizes_tuple, init_prey_populations_tuple, init_predators_populations_tuple, 
-                                        a_params_tuple, b_params_tuple, c_params_tuple, d_params_tuple)
+                                        a_params_tuple, c_params_tuple, d_params_tuple)
             
             for parameters in self.__parameters_list:
                 self.__run_analysis(parameters)
     
     def __prepare_parameters_list(self, area_sizes_tuple, init_prey_populations_tuple, init_predators_populations_tuple, 
-                                  a_params_tuple, b_params_tuple, c_params_tuple, d_params_tuple):
+                                  a_params_tuple, c_params_tuple, d_params_tuple):
         
         self.__parameters_list = []
         for area_size in area_sizes_tuple:
@@ -37,13 +37,17 @@ class RespectToBStrategy(AbstractRespectToStrategy):
                                 
     def __run_analysis(self, params_list):
         pool_results = [[None for _ in range(self.__count_to_average)] for __ in range (len(self.__b_params))]
-        pool = Pool()
+        
+        if self.__threads_count > 0:
+            pool = Pool(processes= self.__threads_count)
+        else:
+            pool = Pool()
+
         for b_index, b in enumerate(self.__b_params):
-            result_to_average = []
             for average_index in range(self.__count_to_average):
                 area = SimulationArea(params_list[0], params_list[1], params_list[2], params_list[3], b, params_list[4], 
                                       params_list[5])
-                pool_results[b][average_index] = pool.apply_async(self.perform_single_simulation, args=(deepcopy(area), ))
+                pool_results[b_index][average_index] = pool.apply_async(self.perform_single_simulation, args=(deepcopy(area), ))
         pool.close()
         pool.join()
 
@@ -66,13 +70,24 @@ class RespectToBStrategy(AbstractRespectToStrategy):
             area.step()
             if area.end_of_simulation():
                 return (i+1)
-            
         return (self.__iteration_per_step)
     
     def __save_result_with_bars(self, result, result_std, params_list):
+        threshold = 0
+        max = 0
+        
+        for index,b in enumerate(y):
+            if b == self.__iteration_per_step:
+                threshold = index
+                break
+            elif b > max:
+                max = b
+                threshold = index
+
         plt.errorbar(list(self.__b_params), result, yerr= result_std)
-        plt.xlabel("b parameter")
-        plt.ylabel("number of iterations")
+        plt.axvline(threshold, linestyle='-.', linewidth = 1, label = f"Threshold value = {round(threshold,2)}%", color = "grey")
+        plt.xlabel("Parameter b value [%]")
+        plt.ylabel("Number of iterations")
         plt.savefig(f"AnalysisResults/png/B{params_list[0]}_{params_list[1]}_{params_list[2]}_{params_list[3]}_{params_list[4]}_{params_list[5]}Graph{self.__iteration_per_step}_{self.__count_to_average}")
         plt.cla()
 
@@ -83,9 +98,21 @@ class RespectToBStrategy(AbstractRespectToStrategy):
             f.write(f"{result_std}")
     
     def __save_result_without_bars(self, result, params_list):
+        threshold = 0
+        max = 0
+        
+        for index,b in enumerate(y):
+            if b == self.__iteration_per_step:
+                threshold = index
+                break
+            elif b > max:
+                max = b
+                threshold = index
+
         plt.scatter(self.__b_params, result)
-        plt.xlabel("b parameter")
-        plt.ylabel("number of iterations")
+        plt.axvline(threshold, linestyle='-.', linewidth = 1, label = f"Threshold value = {round(threshold,2)}%", color = "grey")
+        plt.xlabel("Parameter b value [%]")
+        plt.ylabel("Number of iterations")
         plt.savefig(f"AnalysisResults/png/B{params_list[0]}_{params_list[1]}_{params_list[2]}_{params_list[3]}_{params_list[4]}_{params_list[5]}Graph{self.__iteration_per_step}_{self.__count_to_average}")
         plt.cla()
 

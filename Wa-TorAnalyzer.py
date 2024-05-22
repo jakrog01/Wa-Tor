@@ -3,16 +3,16 @@ from AnalysisScripts.Strategies.RespectToStrategies.RespectToBStrategy import Re
 
 if __name__ == '__main__':
     threads_count = 5
-    count_to_average = 100
-    iteration_per_step = 2500
+    count_to_average = 1
+    iteration_per_step = 1000
 
-    strategy = RespectToBStrategy(True, threads_count, count_to_average, iteration_per_step)
+    strategy = PlotOscilationInTimeStrategy(False, threads_count, count_to_average, iteration_per_step)
 
     area_sizes_tuple = set([100])
     init_prey_populations_tuple = set([60])
     init_predators_populations_tuple = set([4])
     a_params_tuple = set([5])
-    b_params_tuple = set([x for x in range(54,101)])
+    b_params_tuple = set([100])
     c_params_tuple = set([3])
     d_params_tuple = set([7])
 
