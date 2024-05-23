@@ -96,10 +96,10 @@ class RespectToPredatorsInitStrategy(AbstractRespectToStrategy):
         plt.cla()
 
         with open(f"AnalysisResults/txt/IPredators{params_list[0]}_{params_list[1]}_{params_list[2]}_{params_list[3]}_{params_list[4]}_{params_list[5]}Results{self.__iteration_per_step}_{self.__count_to_average}.txt", 'w') as f:
-            f.write(f"{result}")
+            f.write(f"numbers_of_iteration= {result}")
             f.write("\n")
             f.write("\n")
-            f.write(f"{result_std}")
+            f.write(f"numbers_of_iteration_std = {result_std}")
     
     def __save_result_without_bars(self, result, params_list):
         threshold = 0
@@ -121,4 +121,4 @@ class RespectToPredatorsInitStrategy(AbstractRespectToStrategy):
         plt.cla()
 
         with open(f"AnalysisResults/txt/IPredators{params_list[0]}_{params_list[1]}_{params_list[2]}_{params_list[3]}_{params_list[4]}_{params_list[5]}Results{self.__iteration_per_step}_{self.__count_to_average}.txt", 'w') as f:
-            f.write(f"{result}")
+            f.write(f"numbers_of_iteration= {result}")
