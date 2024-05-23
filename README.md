@@ -60,7 +60,7 @@ $$\begin{equation}
   <img src="https://github.com/jakrog01/Wa-Tor/assets/141222606/b764269e-f7e0-4c66-838e-4d6c08036a7b" alt="animated" />
 </p>
 
-# Wa-Tor Analizayer Application
+# Wa-Tor Analyzer Application
 Wa-Tor Analyzer is a console-based application used to analyze the Wa-Tor model. The algorithm used in this application is exactly the same as in Wa-Tor Simulator.
 
 The entire application is devoted to drawing charts. In the application code, you can specify how many threads the application should run on (after entering 0, the program works on all possible threads). You can determine the number of iterations in a given step that interests you and the number of measurements "in one sample" from which the average is calculated. You can also assign the **strategy variable** to one of the following strategies:
