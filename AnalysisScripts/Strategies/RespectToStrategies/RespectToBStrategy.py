@@ -15,7 +15,8 @@ class RespectToBStrategy(AbstractRespectToStrategy):
     def start_analysis(self, area_sizes_tuple, init_prey_populations_tuple, init_predators_populations_tuple, 
                         a_params_tuple, b_params_tuple, c_params_tuple, d_params_tuple):
             
-            self.__b_params = b_params_tuple
+            self.__b_params = list(b_params_tuple)
+            self.__b_params.sort()
             self.__prepare_parameters_list(area_sizes_tuple, init_prey_populations_tuple, init_predators_populations_tuple, 
                                         a_params_tuple, c_params_tuple, d_params_tuple)
             
@@ -76,15 +77,15 @@ class RespectToBStrategy(AbstractRespectToStrategy):
         threshold = 0
         max = 0
         
-        for index,b in enumerate(y):
+        for index,b in enumerate(result):
             if b == self.__iteration_per_step:
-                threshold = index
+                threshold = self.__b_params[index]
                 break
             elif b > max:
                 max = b
-                threshold = index
+                threshold = self.__b_params[index]
 
-        plt.errorbar(list(self.__b_params), result, yerr= result_std)
+        plt.errorbar(self.__b_params, result, yerr= result_std)
         plt.axvline(threshold, linestyle='-.', linewidth = 1, label = f"Threshold value = {round(threshold,2)}%", color = "grey")
         plt.xlabel("Parameter b value [%]")
         plt.ylabel("Number of iterations")
@@ -101,13 +102,13 @@ class RespectToBStrategy(AbstractRespectToStrategy):
         threshold = 0
         max = 0
         
-        for index,b in enumerate(y):
+        for index,b in enumerate(result):
             if b == self.__iteration_per_step:
-                threshold = index
+                threshold = self.__b_params[index]
                 break
             elif b > max:
                 max = b
-                threshold = index
+                threshold = self.__b_params[index]
 
         plt.scatter(self.__b_params, result)
         plt.axvline(threshold, linestyle='-.', linewidth = 1, label = f"Threshold value = {round(threshold,2)}%", color = "grey")

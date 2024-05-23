@@ -80,11 +80,11 @@ class PlotOscilationInTimeStrategy():
     
     def __save_result_with_bars(self, prey_result, prey_result_std, predators_result, predators_result_std, params_list):
         iterations = [x for x in range (len(prey_result))]
-        plt.errorbar(iterations, prey_result, yerr= prey_result_std, color = "blue", label= "Populacja ofiar")
-        plt.errorbar(iterations, predators_result, yerr= predators_result_std, color = "red", label= "Populacja drapieżników")
+        plt.errorbar(iterations, prey_result, yerr= prey_result_std, color = "blue", label= "Prey")
+        plt.errorbar(iterations, predators_result, yerr= predators_result_std, color = "red", label= "Predators")
         plt.legend()
-        plt.xlabel("Iteracja")
-        plt.ylabel("Wielkość populacji")
+        plt.xlabel("Simulation step")
+        plt.ylabel("Population size")
         plt.savefig(f"AnalysisResults/png/O{params_list[0]}_{params_list[1]}_{params_list[2]}_{params_list[3]}_{params_list[4]}_{params_list[5]}_{params_list[6]}Graph{self.__iteration_per_step}_{self.__count_to_average}")
         plt.cla()
 
@@ -98,11 +98,11 @@ class PlotOscilationInTimeStrategy():
     
     def __save_result_without_bars(self, prey_result, predators_result, params_list):
         iterations = [x for x in range (len(prey_result))]
-        plt.scatter(iterations, prey_result, color = "blue", label= "Populacja ofiar", s = 6)
-        plt.scatter(iterations, predators_result, color = "red", label= "Populacja drapiezników", s = 6)
+        plt.scatter(iterations, prey_result, color = "blue", label= "Prey", s = 5)
+        plt.scatter(iterations, predators_result, color = "red", label= "Predators", s = 5)
         plt.legend()
-        plt.xlabel("Iteracja")
-        plt.ylabel("Wielkość populacji")
+        plt.xlabel("Simulation step")
+        plt.ylabel("Population size")
         plt.savefig(f"AnalysisResults/png/O{params_list[0]}_{params_list[1]}_{params_list[2]}_{params_list[3]}_{params_list[4]}_{params_list[5]}_{params_list[6]}Graph{self.__iteration_per_step}_{self.__count_to_average}")
         plt.cla()
 
