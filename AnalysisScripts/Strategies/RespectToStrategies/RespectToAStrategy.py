@@ -45,6 +45,9 @@ class RespectToAStrategy(AbstractRespectToStrategy):
             pool = Pool()
 
         for a_index, a in enumerate(self.__a_params):
+            if (params_list[1] + params_list[2]) > 100:
+                print("PROBLEM WITH SIMULATION PARAMS")
+                return
             for average_index in range(self.__count_to_average):
                 area = SimulationArea(params_list[0], params_list[1], params_list[2], a, params_list[3], params_list[4], 
                                       params_list[5])
@@ -102,12 +105,12 @@ class RespectToAStrategy(AbstractRespectToStrategy):
         threshold = 0
         max = 0
         
-        for index,b in enumerate(result):
-            if b == self.__iteration_per_step:
+        for index,a in enumerate(result):
+            if a == self.__iteration_per_step:
                 threshold = self.__a_params[index]
                 break
-            elif b > max:
-                max = b
+            elif a > max:
+                max = a
                 threshold = self.__a_params[index]
 
         plt.scatter(self.__a_params, result)

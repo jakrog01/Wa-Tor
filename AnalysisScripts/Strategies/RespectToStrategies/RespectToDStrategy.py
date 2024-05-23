@@ -5,7 +5,7 @@ from multiprocessing import Pool
 import numpy as np
 from copy import deepcopy
 
-class RespectToCStrategy(AbstractRespectToStrategy):
+class RespectToDStrategy(AbstractRespectToStrategy):
     def __init__(self, errorbars: bool, threads_count, count_to_average, iteration_per_step):
         self.__error_bars = errorbars
         self.__threads_count = threads_count
@@ -15,16 +15,16 @@ class RespectToCStrategy(AbstractRespectToStrategy):
     def start_analysis(self, area_sizes_tuple, init_prey_populations_tuple, init_predators_populations_tuple, 
                         a_params_tuple, b_params_tuple, c_params_tuple, d_params_tuple):
             
-            self.__c_params = list(c_params_tuple)
-            self.__c_params.sort()
+            self.__d_params = list(d_params_tuple)
+            self.__d_params.sort()
             self.__prepare_parameters_list(area_sizes_tuple, init_prey_populations_tuple, init_predators_populations_tuple, 
-                                        a_params_tuple, b_params_tuple, d_params_tuple)
+                                        a_params_tuple, b_params_tuple, c_params_tuple)
             
             for parameters in self.__parameters_list:
                 self.__run_analysis(parameters)
     
     def __prepare_parameters_list(self, area_sizes_tuple, init_prey_populations_tuple, init_predators_populations_tuple, 
-                                  a_params_tuple, b_params_tuple, d_params_tuple):
+                                  a_params_tuple, b_params_tuple, c_params_tuple):
         
         self.__parameters_list = []
         for area_size in area_sizes_tuple:
@@ -32,26 +32,26 @@ class RespectToCStrategy(AbstractRespectToStrategy):
                 for init_predator_population in init_predators_populations_tuple:
                     for a_param in a_params_tuple:
                         for b_param in b_params_tuple:
-                            for d_param in d_params_tuple:
+                            for c_param in c_params_tuple:
                                 self.__parameters_list.append([area_size, init_prey_population, init_predator_population,
-                                                                a_param, b_param, d_param])
+                                                                a_param, b_param, c_param])
                                 
     def __run_analysis(self, params_list):
-        pool_results = [[None for _ in range(self.__count_to_average)] for __ in range (len(self.__c_params))]
+        pool_results = [[None for _ in range(self.__count_to_average)] for __ in range (len(self.__d_params))]
         
         if self.__threads_count > 0:
             pool = Pool(processes= self.__threads_count)
         else:
             pool = Pool()
 
-        for c_index, c in enumerate(self.__c_params):
+        for d_index, d in enumerate(self.__d_params):
             if (params_list[1] + params_list[2]) > 100:
                 print("PROBLEM WITH SIMULATION PARAMS")
                 return
             for average_index in range(self.__count_to_average):
-                area = SimulationArea(params_list[0], params_list[1], params_list[2], params_list[3], params_list[4], c, 
-                                      params_list[5])
-                pool_results[c_index][average_index] = pool.apply_async(self.perform_single_simulation, args=(deepcopy(area), ))
+                area = SimulationArea(params_list[0], params_list[1], params_list[2], params_list[3], params_list[4], 
+                                      params_list[5],d)
+                pool_results[d_index][average_index] = pool.apply_async(self.perform_single_simulation, args=(deepcopy(area), ))
         pool.close()
         pool.join()
 
@@ -80,22 +80,22 @@ class RespectToCStrategy(AbstractRespectToStrategy):
         threshold = 0
         max = 0
         
-        for index,c in enumerate(result):
-            if c == self.__iteration_per_step:
-                threshold = self.__c_params[index]
+        for index,d in enumerate(result):
+            if d == self.__iteration_per_step:
+                threshold = self.__d_params[index]
                 break
-            elif c > max:
-                max = c
-                threshold = self.__c_params[index]
+            elif d > max:
+                max = d
+                threshold = self.__d_params[index]
 
-        plt.errorbar(self.__c_params, result, yerr= result_std)
+        plt.errorbar(self.__d_params, result, yerr= result_std)
         plt.axvline(threshold, linestyle='-.', linewidth = 1, label = f"Threshold value = {round(threshold,2)}%", color = "grey")
-        plt.xlabel("Predators mortality [steps]")
+        plt.xlabel("Predators reproduction [steps]")
         plt.ylabel("Number of iterations")
-        plt.savefig(f"AnalysisResults/png/C{params_list[0]}_{params_list[1]}_{params_list[2]}_{params_list[3]}_{params_list[4]}_{params_list[5]}Graph{self.__iteration_per_step}_{self.__count_to_average}")
+        plt.savefig(f"AnalysisResults/png/D{params_list[0]}_{params_list[1]}_{params_list[2]}_{params_list[3]}_{params_list[4]}_{params_list[5]}Graph{self.__iteration_per_step}_{self.__count_to_average}")
         plt.cla()
 
-        with open(f"AnalysisResults/txt/C{params_list[0]}_{params_list[1]}_{params_list[2]}_{params_list[3]}_{params_list[4]}_{params_list[5]}Results{self.__iteration_per_step}_{self.__count_to_average}.txt", 'w') as f:
+        with open(f"AnalysisResults/txt/D{params_list[0]}_{params_list[1]}_{params_list[2]}_{params_list[3]}_{params_list[4]}_{params_list[5]}Results{self.__iteration_per_step}_{self.__count_to_average}.txt", 'w') as f:
             f.write(f"numbers_of_iteration= {result}")
             f.write("\n")
             f.write("\n")
@@ -105,20 +105,20 @@ class RespectToCStrategy(AbstractRespectToStrategy):
         threshold = 0
         max = 0
         
-        for index,c in enumerate(result):
-            if c == self.__iteration_per_step:
-                threshold = self.__c_params[index]
+        for index,d in enumerate(result):
+            if d == self.__iteration_per_step:
+                threshold = self.__d_params[index]
                 break
-            elif c > max:
-                max = c
-                threshold = self.__c_params[index]
+            elif d > max:
+                max = d
+                threshold = self.__d_params[index]
 
-        plt.scatter(self.__c_params, result)
+        plt.scatter(self.__d_params, result)
         plt.axvline(threshold, linestyle='-.', linewidth = 1, label = f"Threshold value = {round(threshold,2)}%", color = "grey")
-        plt.xlabel("Predators mortality [steps]")
+        plt.xlabel("Predators reproduction [steps]")
         plt.ylabel("Number of iterations")
-        plt.savefig(f"AnalysisResults/png/C{params_list[0]}_{params_list[1]}_{params_list[2]}_{params_list[3]}_{params_list[4]}_{params_list[5]}Graph{self.__iteration_per_step}_{self.__count_to_average}")
+        plt.savefig(f"AnalysisResults/png/D{params_list[0]}_{params_list[1]}_{params_list[2]}_{params_list[3]}_{params_list[4]}_{params_list[5]}Graph{self.__iteration_per_step}_{self.__count_to_average}")
         plt.cla()
 
-        with open(f"AnalysisResults/txt/C{params_list[0]}_{params_list[1]}_{params_list[2]}_{params_list[3]}_{params_list[4]}_{params_list[5]}Results{self.__iteration_per_step}_{self.__count_to_average}.txt", 'w') as f:
+        with open(f"AnalysisResults/txt/D{params_list[0]}_{params_list[1]}_{params_list[2]}_{params_list[3]}_{params_list[4]}_{params_list[5]}Results{self.__iteration_per_step}_{self.__count_to_average}.txt", 'w') as f:
             f.write(f"numbers_of_iteration= {result}")

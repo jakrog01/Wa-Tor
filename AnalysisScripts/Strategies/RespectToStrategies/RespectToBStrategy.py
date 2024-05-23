@@ -45,6 +45,9 @@ class RespectToBStrategy(AbstractRespectToStrategy):
             pool = Pool()
 
         for b_index, b in enumerate(self.__b_params):
+            if (params_list[1] + params_list[2]) > 100:
+                print("PROBLEM WITH SIMULATION PARAMS")
+                return
             for average_index in range(self.__count_to_average):
                 area = SimulationArea(params_list[0], params_list[1], params_list[2], params_list[3], b, params_list[4], 
                                       params_list[5])

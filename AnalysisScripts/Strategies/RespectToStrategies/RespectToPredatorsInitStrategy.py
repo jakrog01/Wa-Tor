@@ -80,12 +80,12 @@ class RespectToPredatorsInitStrategy(AbstractRespectToStrategy):
         threshold = 0
         max = 0
         
-        for index,b in enumerate(result):
-            if b == self.__iteration_per_step:
+        for index,ipredator in enumerate(result):
+            if ipredator == self.__iteration_per_step:
                 threshold =self.__init_predators_populations[index]
                 break
-            elif b > max:
-                max = b
+            elif ipredator > max:
+                max = ipredator
                 threshold =self.__init_predators_populations[index]
 
         plt.errorbar(self.__init_predators_populations, result, yerr= result_std)
@@ -105,12 +105,12 @@ class RespectToPredatorsInitStrategy(AbstractRespectToStrategy):
         threshold = 0
         max = 0
         
-        for index,b in enumerate(result):
-            if b == self.__iteration_per_step:
+        for index,ipredator in enumerate(result):
+            if ipredator == self.__iteration_per_step:
                 threshold =self.__init_predators_populations[index]
                 break
-            elif b > max:
-                max = b
+            elif ipredator > max:
+                max = ipredator
                 threshold =self.__init_predators_populations[index]
 
         plt.scatter(self.__init_predators_populations, result)

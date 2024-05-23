@@ -80,12 +80,12 @@ class RespectToPreyInitStrategy(AbstractRespectToStrategy):
         threshold = 0
         max = 0
         
-        for index,b in enumerate(result):
-            if b == self.__iteration_per_step:
+        for index,iprey in enumerate(result):
+            if iprey == self.__iteration_per_step:
                 threshold =self.__init_prey_populations[index]
                 break
-            elif b > max:
-                max = b
+            elif iprey > max:
+                max = iprey
                 threshold =self.__init_prey_populations[index]
 
         plt.errorbar(self.__init_prey_populations, result, yerr= result_std)
@@ -105,12 +105,12 @@ class RespectToPreyInitStrategy(AbstractRespectToStrategy):
         threshold = 0
         max = 0
         
-        for index,b in enumerate(result):
-            if b == self.__iteration_per_step:
+        for index,iprey in enumerate(result):
+            if iprey == self.__iteration_per_step:
                 threshold =self.__init_prey_populations[index]
                 break
-            elif b > max:
-                max = b
+            elif iprey > max:
+                max = iprey
                 threshold =self.__init_prey_populations[index]
 
         plt.scatter(self.__init_prey_populations, result)

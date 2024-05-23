@@ -45,6 +45,9 @@ class RespectToAreaSizeStrategy(AbstractRespectToStrategy):
             pool = Pool()
 
         for area_size_index, area_size in enumerate(self.__area_sizes):
+            if (params_list[0] + params_list[1]) > 100:
+                print("PROBLEM WITH SIMULATION PARAMS")
+                return
             for average_index in range(self.__count_to_average):
                 area = SimulationArea(area_size, params_list[0], params_list[1], params_list[2], params_list[3], params_list[4], 
                                       params_list[5])
@@ -102,12 +105,12 @@ class RespectToAreaSizeStrategy(AbstractRespectToStrategy):
         threshold = 0
         max = 0
         
-        for index,b in enumerate(result):
-            if b == self.__iteration_per_step:
+        for index,area_size in enumerate(result):
+            if area_size == self.__iteration_per_step:
                 threshold = self.__area_sizes[index]
                 break
-            elif b > max:
-                max = b
+            elif area_size > max:
+                max = area_size
                 threshold = self.__area_sizes[index]
 
         plt.scatter(self.__area_sizes, result)
