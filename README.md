@@ -64,10 +64,10 @@ $$\begin{equation}
 Wa-Tor Analyzer is a console-based application used to analyze the Wa-Tor model. The algorithm used in this application is exactly the same as in Wa-Tor Simulator.
 
 The entire application is devoted to drawing charts. In the application code, you can specify how many threads the application should run on (after entering 0, the program works on all possible threads). You can determine the number of iterations in a given step that interests you and the number of measurements "in one sample" from which the average is calculated. You can also assign the **strategy variable** to one of the following strategies:
-1. **Plot Oscilation In Time Strategy**: it plots changes in prey and predator populations
+1. **Plot oscilation in time strategy**: it plots changes in prey and predator populations
 2. **Respect to strategy**: It plots the dependence of the number of iterations for which the ecosystem was stable on the changing parameter. Each of the initial simulation parameters has its own strategy that prepares graphs for it.
 
 For convenience of use, the results are presented in the form of ready-made charts (AnalysisResults\png folder) and txt files with the results (AnalysisResults\txt folder). The graph also shows the threshold value for which balance occurred in the ecosystem. Charts can be created with or without marked standard deviation.
 
 ### Example result
-As an example of using the program, I created a report examining the relationship between the balance in the ecosystem and the effectiveness of hunting. The [raport](Wa_TorRaportExample.pdf) is available on this repository.
+As an example of using the program, I created a report examining the relationship between the balance in the ecosystem and the effectiveness of hunting. The [example raport](Wa_TorRaportExample.pdf) is available on this repository.
