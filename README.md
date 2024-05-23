@@ -2,7 +2,7 @@
 Wa-Tor model simulation written in Python. Simple graphical interface of this app allows you to define the initial parameters of the simulation and see its evolution in real time. You can also use Wa-Tor Analyzer to analyze the impact of one of the parameters on the stability of the ecosystem.
 The project was inspired by this [simulation](http://en.alife.pl/predators-and-prey-the-Lotka-Volterra-model).
 
-# Required packages
+## Required packages
 
 You will need pyside6, numpy and matplotlib packages to run the application:
 ```
