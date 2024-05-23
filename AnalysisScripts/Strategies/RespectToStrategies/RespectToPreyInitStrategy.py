@@ -12,28 +12,28 @@ class RespectToPreyInitStrategy(AbstractRespectToStrategy):
         self.__count_to_average = count_to_average
         self.__iteration_per_step = iteration_per_step
 
-    def start_analysis(self, prey_populations_tuple, init_prey_populations_tuple, init_predators_populations_tuple, 
+    def start_analysis(self, area_sizes_tuple, init_prey_populations_tuple, init_predators_populations_tuple, 
                         a_params_tuple, b_params_tuple, c_params_tuple, d_params_tuple):
             
             self.__init_prey_populations = list(init_prey_populations_tuple)
             self.__init_prey_populations.sort()
-            self.__prepare_parameters_list(prey_populations_tuple, init_predators_populations_tuple, a_params_tuple, 
+            self.__prepare_parameters_list(area_sizes_tuple, init_predators_populations_tuple, a_params_tuple, 
                                         b_params_tuple, c_params_tuple, d_params_tuple)
             
             for parameters in self.__parameters_list:
                 self.__run_analysis(parameters)
     
-    def __prepare_parameters_list(self, prey_populations_tuple, init_predators_populations_tuple, a_params_tuple,
+    def __prepare_parameters_list(self, area_sizes_tuple, init_predators_populations_tuple, a_params_tuple,
                                   b_params_tuple, c_params_tuple, d_params_tuple):
         
         self.__parameters_list = []
-        for prey_population in prey_populations_tuple:
+        for area_size in area_sizes_tuple:
             for init_predator_population in init_predators_populations_tuple:
                 for a_param in a_params_tuple:
                     for b_param in b_params_tuple:
                         for c_param in c_params_tuple:
                             for d_param in d_params_tuple:
-                                self.__parameters_list.append([prey_population, init_predator_population, a_param,
+                                self.__parameters_list.append([area_size, init_predator_population, a_param,
                                                                 b_param, c_param, d_param])
                                 
     def __run_analysis(self, params_list):
